@@ -1,6 +1,5 @@
 /*
 *  通用jenkins自动构建pipline文件
-* 参数说明:
 * GIT_URL:  仓库地址
 * GIT_BRANCH: 分支名称
 * IS_RUN_SONNAR: 是否执行ssonar扫描
