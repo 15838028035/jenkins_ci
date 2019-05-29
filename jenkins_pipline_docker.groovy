@@ -36,7 +36,7 @@ node {
    stage("sonar¥˙¬Î…®√Ë") {
          timeout(time: 15, unit: 'MINUTES') {
 	   if(params.IS_RUN_SONNAR) {
-		// execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=${SONAR_HOST} -X")
+		 execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=${SONAR_HOST} -X")
 	    }
          }
     }
