@@ -60,13 +60,13 @@ node {
     }
     }  finally {
 		if(params.IS_SEND_EMAIL) {
-		/**stage('Send email') {
+		stage('Send email') {
                  emailext body : '${FILE,path="${JENKINS_HOME}/email-templates/email.html"}',
                  mimeType: 'text/html',
                  to:'${MAIL_TO_USER}',
                 subject: '构建通知：$PROJECT_NAME - Build # $BUILD_NUMBER - Success!'
         }
-		*/
+		
 		}
         
         }
