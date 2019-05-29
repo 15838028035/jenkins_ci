@@ -2,12 +2,6 @@
 def GLOBAL_TOOL_JDK_ID   = 'JAVA_HOME'
 def GLOBAL_TOOL_MAVEN_ID = 'MAVEN_HOME'
 
-properties([parameters([string(name: 'GIT_URL', defaultValue: 'http://192.168.96.89:3000/Model_Training/Audio_Model.git', description: 'git仓库地址'),
-                        string(name: 'GIT_BRANCH', defaultValue: 'master', description: 'git分支名称'),
-                        string(name: 'GIT_CREDIT', defaultValue: '47e7e050-aa0c-42cd-a1af-500a3f07d5c1', description: 'git用户凭证')
-
-            ])])
-
 node {
     
     try{
