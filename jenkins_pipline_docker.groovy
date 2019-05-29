@@ -43,13 +43,12 @@ node {
 
 	stage("SCA镜像生成") {
 		if(params.IS_GEN_DOCKER_IMG) {
-			parallel 
-			
-				'镜像生成': {
+			parallel '镜像生成': {
 					// 打包代码
 					execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true  -X ")
 					buildAndPushImage(modelNames[0])
 				 }
+					
 		}
     }
 	
