@@ -14,7 +14,7 @@
 def GLOBAL_TOOL_JDK_ID   = 'JAVA_HOME'
 def GLOBAL_TOOL_MAVEN_ID = 'MAVEN_HOME'
 
-def modelNames = param.MODEL_NAMES.replaceAll('"','').split(',')
+// def modelNames = param.MODEL_NAMES.replaceAll('"','').split(',')
 
 node {
     
