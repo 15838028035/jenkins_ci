@@ -3,6 +3,7 @@
 * 参数说明:
 * GIT_URL:  仓库地址
 * GIT_BRANCH: 分支名称
+* GIT_CREDIT： jenkins凭据参数
 * IS_RUN_SONNAR: 是否执行ssonar扫描
 * IS_GEN_DOCKER_IMG： 是否执行docker镜像
 * MODEL_NAMES 镜像模块名称
