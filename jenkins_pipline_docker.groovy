@@ -49,8 +49,7 @@ node {
 					// ДђАќДњТы
 					execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true  -X ")
 					buildAndPushImage(modelNames[0])
-				 
-			// }
+				 }
 		}
     }
 	
