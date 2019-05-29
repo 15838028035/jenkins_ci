@@ -46,7 +46,8 @@ node {
 			parallel 
 			
 			 //for (int i = 0; i < modelNames.size(); i++) {
-				script '镜像生成'+i: {
+			//	script 
+				'镜像生成'+i: {
 					// 打包代码
 					execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true  -X ")
 					buildAndPushImage(modelNames[0])
