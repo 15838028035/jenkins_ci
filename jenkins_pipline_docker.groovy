@@ -81,7 +81,7 @@ node {
 	
     stage("清理工程") {
         // 暂时不删除目录
-        //deleteDir()
+        deleteDir()
         // 查看当前目录
         // sh 'ls -lah'
     }
