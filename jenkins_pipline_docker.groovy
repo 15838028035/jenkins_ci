@@ -34,7 +34,7 @@ node {
     
 	stage("ÅäÖÃsonarÅäÖÃÎÄ¼ş"){
             
-		dir(¡±${WORKSPACE}¡°){
+		dir("${WORKSPACE}"){
 			try{
 				sh "rm sonar-project.properties"
 			}catch(e){}
