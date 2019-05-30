@@ -1,16 +1,16 @@
 /*
-*  Í¨ÓÃjenkins×Ô¶¯¹¹½¨piplineÎÄ¼ş
-* ²ÎÊıËµÃ÷:
-* GIT_URL:  ²Ö¿âµØÖ·
-* GIT_BRANCH: ·ÖÖ§Ãû³Æ
-* GIT_CREDIT£º jenkinsÆ¾¾İ²ÎÊı
-* IS_RUN_SONNAR: ÊÇ·ñÖ´ĞĞssonarÉ¨Ãè
-* IS_GEN_DOCKER_IMG£º ÊÇ·ñÖ´ĞĞdocker¾µÏñ
-* MODEL_NAMES ¾µÏñÄ£¿éÃû³Æ
-* IS_SEND_EMAIL: ÊÇ·ñ·¢ËÍÓÊ¼ş
+*  é€šç”¨jenkinsè‡ªåŠ¨æ„å»ºpiplineæ–‡ä»¶
+* å‚æ•°è¯´æ˜:
+* GIT_URL:  ä»“åº“åœ°å€
+* GIT_BRANCH: åˆ†æ”¯åç§°
+* GIT_CREDITï¼š jenkinså‡­æ®å‚æ•°
+* IS_RUN_SONNAR: æ˜¯å¦æ‰§è¡Œssonaræ‰«æ
+* IS_GEN_DOCKER_IMGï¼š æ˜¯å¦æ‰§è¡Œdockeré•œåƒ
+* MODEL_NAMES é•œåƒæ¨¡å—åç§°
+* IS_SEND_EMAIL: æ˜¯å¦å‘é€é‚®ä»¶
 */
 
-// ÉúÃüÈ«¾Ö¹¤¾ß±äÁ¿
+// ç”Ÿå‘½å…¨å±€å·¥å…·å˜é‡
 def GLOBAL_TOOL_JDK_ID   = 'JAVA_HOME'
 def GLOBAL_TOOL_MAVEN_ID = 'MAVEN_HOME'
 
@@ -19,20 +19,20 @@ def GLOBAL_TOOL_MAVEN_ID = 'MAVEN_HOME'
 node {
     
     try{
-    // È«¾Ö»ñÈ¡×îĞÂ´úÂë
-    stage("»ñÈ¡×îĞÂ´úÂë") {
-        // ÏŞÖÆ15·ÖÖÓÄÚÍê³É¡£
+    // å…¨å±€è·å–æœ€æ–°ä»£ç 
+    stage("è·å–æœ€æ–°ä»£ç ") {
+        // é™åˆ¶15åˆ†é’Ÿå†…å®Œæˆã€‚
         timeout(time: 15, unit: 'MINUTES') {
              coCode()
         }
     }
 
-    // ×é¼ş±àÒë²âÊÔ
-    stage("SCA±àÒë&&²âÊÔ") {
+    // ç»„ä»¶ç¼–è¯‘æµ‹è¯•
+    stage("SCAç¼–è¯‘&&æµ‹è¯•") {
         execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "clean compile -Dmaven.test.skip=true")
     }
     
-	stage("ÅäÖÃsonarÅäÖÃÎÄ¼ş"){
+	stage("é…ç½®sonaré…ç½®æ–‡ä»¶"){
             
 		dir("${WORKSPACE}"){
 			try{
@@ -60,7 +60,7 @@ node {
 	}
 
     // sonar
-   stage("sonar´úÂëÉ¨Ãè") {
+   stage("sonarä»£ç æ‰«æ") {
          timeout(time: 15, unit: 'MINUTES') {
 	   if(params.IS_RUN_SONNAR) {
 		 execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.sources=. -X")
@@ -68,10 +68,10 @@ node {
          }
     }
 
-	stage("SCA¾µÏñÉú³É") {
+	stage("SCAé•œåƒç”Ÿæˆ") {
 		if(params.IS_GEN_DOCKER_IMG) {
-			parallel '¾µÏñÉú³É': {
-					// ´ò°ü´úÂë
+			parallel 'é•œåƒç”Ÿæˆ': {
+					// æ‰“åŒ…ä»£ç 
 					execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true  -X ")
 					buildAndPushImage(param.MODEL_NAMES)
 				 }
@@ -79,10 +79,10 @@ node {
 		}
     }
 	
-    stage("ÇåÀí¹¤³Ì") {
-        // ÔİÊ±²»É¾³ıÄ¿Â¼
+    stage("æ¸…ç†å·¥ç¨‹") {
+        // æš‚æ—¶ä¸åˆ é™¤ç›®å½•
         deleteDir()
-        // ²é¿´µ±Ç°Ä¿Â¼
+        // æŸ¥çœ‹å½“å‰ç›®å½•
         // sh 'ls -lah'
     }
     }  finally {
@@ -91,7 +91,7 @@ node {
                  emailext body : '${FILE,path="${JENKINS_HOME}/email-templates/email.html"}',
                  mimeType: 'text/html',
                  to:'${MAIL_TO_USER}',
-                subject: '¹¹½¨Í¨Öª£º$PROJECT_NAME - Build # $BUILD_NUMBER - Success!'
+                subject: 'æ„å»ºé€šçŸ¥ï¼š$PROJECT_NAME - Build # $BUILD_NUMBER - Success!'
         }
 		
 		}
@@ -100,29 +100,29 @@ node {
 
 }
 
-// Ö´ĞĞmavenÃüÁî£¬ĞèÒªÅäÖÃÂ·¾¶£¬mavenµÄ¹¤×÷Ä¿Â¼£¬mavenµÄ²ÎÊıÃüÁî¡£
+// æ‰§è¡Œmavenå‘½ä»¤ï¼Œéœ€è¦é…ç½®è·¯å¾„ï¼Œmavençš„å·¥ä½œç›®å½•ï¼Œmavençš„å‚æ•°å‘½ä»¤ã€‚
 def execMavenCommand(mvnTools, path, params) {
-    // ³õÊ¼»¯
+    // åˆå§‹åŒ–
     init(mvnTools);
-    // »ñÈ¡µ±Ç°Â·¾¶
+    // è·å–å½“å‰è·¯å¾„
    def curPath = pwd();
-   // ÏŞ¶¨15·ÖÖÓÄÚÍê³É
+   // é™å®š15åˆ†é’Ÿå†…å®Œæˆ
     timeout(time: 15, unit: 'MINUTES') {
         sh "cd ${curPath}${path} && mvn ${params} -V -B -Duser.timezone=GMT+08"
     }
 }
 
-// ³õÊ¼»¯£¬ÎªÁË¸üºÃ¼ò»¯¸÷¸önodeµÄ»·¾³³õÊ¼»¯£¬Òò´ËÔÙ´Î²ÉÓÃÍ³Ò»·½Ê½½øĞĞ³õÊ¼»¯¡£
+// åˆå§‹åŒ–ï¼Œä¸ºäº†æ›´å¥½ç®€åŒ–å„ä¸ªnodeçš„ç¯å¢ƒåˆå§‹åŒ–ï¼Œå› æ­¤å†æ¬¡é‡‡ç”¨ç»Ÿä¸€æ–¹å¼è¿›è¡Œåˆå§‹åŒ–ã€‚
 def init(mvnTools) {
-    // ¼ì²â´úÂë
+    // æ£€æµ‹ä»£ç 
     // coCode();
-    // Ìí¼Ómavenµ½»·¾³±äÁ¿ÖĞ¡£
+    // æ·»åŠ mavenåˆ°ç¯å¢ƒå˜é‡ä¸­ã€‚
     addMvnEnv(mvnTools);
 }
 
-// Ìí¼Ómavenµ½»·¾³±äÁ¿ÖĞ
+// æ·»åŠ mavenåˆ°ç¯å¢ƒå˜é‡ä¸­
 def addMvnEnv(t) {
-    // ¶¨Òåmaven×é¼ş
+    // å®šä¹‰mavenç»„ä»¶
     def mvnHome = tool t
     env.PATH = "${mvnHome}/bin:${env.PATH}"
 }
@@ -150,20 +150,20 @@ def buildAndPushImage(moduleHome) {
     println "build docker workspace:" + workPath
 
     def buildPath = workPath + "/target/docker";
-    // ´´½¨¹¹½¨Ä¿Â¼£¬²¢¿½±´ÎÄ¼ş¡£
+    // åˆ›å»ºæ„å»ºç›®å½•ï¼Œå¹¶æ‹·è´æ–‡ä»¶ã€‚
     sh "mkdir -p ${buildPath} && cp ${workPath}/src/main/docker/Dockerfile ${buildPath}/ && cp ${workPath}/target/*.jar ${buildPath}/"
 
-    // ÉùÃ÷Æ¾Ö¤£¬¸ÃÆ¾Ö¤À´×Ôjenkins
+    // å£°æ˜å‡­è¯ï¼Œè¯¥å‡­è¯æ¥è‡ªjenkins
     def docker_cer = 'docker-hub-10-1-245-53'
 
-    // ¶ÁÈ¡°æ±¾ºÅÂë
+    // è¯»å–ç‰ˆæœ¬å·ç 
     def buildVersion = versionOfProject(workPath)
     println("buildVersion:" + buildVersion)
 
     def artifactId = artifactIdProject(workPath)
     println("artifactId:" + artifactId)
 
-    // ¼ÓÉÏ±àÒëµÄÊ±¼ä´Á£¬Í¬Ê±È¥µô-ºÍ_¡£
+    // åŠ ä¸Šç¼–è¯‘çš„æ—¶é—´æˆ³ï¼ŒåŒæ—¶å»æ‰-å’Œ_ã€‚
     // buildVersion = buildVersion + "." + currentBuild.timeInMillis
     // buildVersion = buildVersion.replace('-','')
     // buildVersion = buildVersion.replace('_','')
@@ -176,21 +176,21 @@ def buildAndPushImage(moduleHome) {
         def app = docker.build(artifactId + ":" + buildVersion, buildPath)
 
         docker.withRegistry(env.DOCKER_REGISTRY_SERVER_IP,'admin123') {
-            // ÍÆËÍ×îĞÂ°æ±¾
+            // æ¨é€æœ€æ–°ç‰ˆæœ¬
             app.push("latest")
-            // ÍÆËÍµ±Ç°°æ±¾
+            // æ¨é€å½“å‰ç‰ˆæœ¬
             app.push(buildVersion);
         }
     }
 }
 
-// ´ÓpomÎÄ¼şÖĞ¹úÄê»ñÈ¡°æ±¾ºÅ
+// ä»pomæ–‡ä»¶ä¸­å›½å¹´è·å–ç‰ˆæœ¬å·
 def versionOfProject(path) {
     def matcher = readFile(path + '/pom.xml') =~ '<version>(.+)</version>'
     matcher ? matcher[0][1] : null
 }
 
-// ´ÓpomÎÄ¼şÖĞ»ñÈ¡ID
+// ä»pomæ–‡ä»¶ä¸­è·å–ID
 def artifactIdProject(path) {
     def matcher = readFile(path + '/pom.xml') =~ '<artifactId>(.+)</artifactId>'
     matcher ? matcher[0][1] : null
