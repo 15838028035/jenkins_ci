@@ -52,7 +52,7 @@ node {
 				sh "echo 'html-module.sonar.projectName=Html Module ' >> sonar-project.properties"
 				sh "echo 'html-module.sonar.language=web ' >> sonar-project.properties"
 				sh "echo 'html-module.sonar.sources=.' >> sonar-project.properties"
-				sh "echo 'html-module.sonar.projectBaseDir=src/main/resources/resources' >> sonar-project.properties"
+				sh "echo 'html-module.sonar.projectBaseDir=src/main/resources/static' >> sonar-project.properties"
 				
 				
 		}
