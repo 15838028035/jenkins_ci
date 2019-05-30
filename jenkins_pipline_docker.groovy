@@ -32,6 +32,24 @@ node {
         execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "clean compile -Dmaven.test.skip=true")
     }
     
+	stage("≈‰÷√sonar≈‰÷√Œƒº˛"){
+            steps{
+                script{
+				def curPath = pwd()
+                    dir(${WORKSPACE}){
+                        try{
+                            sh "rm sonar-project.properties"
+                        }catch(e){}
+                            sh "echo 'sonar.projectKey=param.MODEL_NAMES' >> sonar-project.properties"
+                            sh "echo 'sonar.projectName=param.MODEL_NAMES' >> sonar-project.properties"
+                            sh "echo 'sonar.sources=src/main/java,src/main/resources' >> sonar-project.properties"
+                            sh "echo 'sonar.sourceEncoding=UTF-8' >> sonar-project.properties"
+                            
+                    }
+                }
+            }
+	}
+
     // sonar
    stage("sonar¥˙¬Î…®√Ë") {
          timeout(time: 15, unit: 'MINUTES') {
