@@ -6,6 +6,7 @@
 * GIT_CREDIT： jenkins凭据参数
 * IS_RUN_SONNAR: 是否执行ssonar扫描
 * IS_GEN_DOCKER_IMG： 是否执行docker镜像
+* IS_DEPLOY_NEXUS 是否发布到nexus中
 * MODEL_NAMES 镜像模块名称
 * IS_SEND_EMAIL: 是否发送邮件
 */
@@ -78,6 +79,17 @@ node {
 					
 		}
     }
+    
+      // 发布
+    stage("发布到nexus中") {
+        	if(params.IS_DEPLOY_NEXUS) {
+                 timeout(time: 15, unit: 'MINUTES') {
+                    execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "deploy -Dmaven.test.skip=true -Dgpg.passphrase=${gpg_passphrase} -P release -Duser.timezone=GMT+08 -X")
+                 }
+        	}
+    }
+
+
 	
     stage("清理工程") {
         // 暂时不删除目录
