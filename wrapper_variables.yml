@@ -1,0 +1,16 @@
+
+Audio_Model:
+    job_name: "Audio_Model"
+    job_description: "<h3>Audio_Model</p>"
+    build_discarder_logs: 10
+    build_discarder_artifacts: 60
+    parameters:
+        boolean_parameters:
+            IS_RUN_SONNAR: true
+        string_parameters:
+            GIT_URL: "http://192.168.96.89:3000/Model_Training/Audio_Model.git"
+            GIT_BRANCH: "master"
+            GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
+                 
+    triggers:
+cron: "H 22 * * *"
