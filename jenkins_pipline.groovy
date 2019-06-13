@@ -1,35 +1,35 @@
 /*
-*  Í¨ÓÃjenkins×Ô¶¯¹¹½¨piplineÎÄ¼ş
-* ²ÎÊıËµÃ÷:
-* GIT_URL:  ²Ö¿âµØÖ·
-* GIT_BRANCH: ·ÖÖ§Ãû³Æ
-* IS_RUN_SONNAR: ÊÇ·ñÖ´ĞĞssonarÉ¨Ãè
+*  é€šç”¨jenkinsè‡ªåŠ¨æ„å»ºpiplineæ–‡ä»¶
+* å‚æ•°è¯´æ˜:
+* GIT_URL:  ä»“åº“åœ°å€
+* GIT_BRANCH: åˆ†æ”¯åç§°
+* IS_RUN_SONNAR: æ˜¯å¦æ‰§è¡Œssonaræ‰«æ
 *
 *
 */
 
-// ÉúÃüÈ«¾Ö¹¤¾ß±äÁ¿
+// ç”Ÿå‘½å…¨å±€å·¥å…·å˜é‡
 def GLOBAL_TOOL_JDK_ID   = 'JAVA_HOME'
 def GLOBAL_TOOL_MAVEN_ID = 'MAVEN_HOME'
 
 node {
     
     try{
-    // È«¾Ö»ñÈ¡×îĞÂ´úÂë
-    stage("»ñÈ¡×îĞÂ´úÂë") {
-        // ÏŞÖÆ15·ÖÖÓÄÚÍê³É¡£
+    // å…¨å±€è·å–æœ€æ–°ä»£ç 
+    stage("è·å–æœ€æ–°ä»£ç ") {
+        // é™åˆ¶15åˆ†é’Ÿå†…å®Œæˆã€‚
         timeout(time: 15, unit: 'MINUTES') {
              coCode()
         }
     }
 
-    // ×é¼ş±àÒë²âÊÔ
-    stage("SCA±àÒë&&²âÊÔ") {
+    // ç»„ä»¶ç¼–è¯‘æµ‹è¯•
+    stage("SCAç¼–è¯‘&&æµ‹è¯•") {
         execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "clean compile -Dmaven.test.skip=true")
     }
     
     // sonar
-   stage("sonar´úÂëÉ¨Ãè") {
+   stage("sonarä»£ç æ‰«æ") {
          timeout(time: 15, unit: 'MINUTES') {
 	   if(params.IS_RUN_SONNAR) {
 		execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=http://192.168.96.89:9000 -X")
@@ -37,10 +37,10 @@ node {
          }
     }
 
-    stage("ÇåÀí¹¤³Ì") {
-        // ÔİÊ±²»É¾³ıÄ¿Â¼
+    stage("æ¸…ç†å·¥ç¨‹") {
+        // æš‚æ—¶ä¸åˆ é™¤ç›®å½•
         deleteDir()
-        // ²é¿´µ±Ç°Ä¿Â¼
+        // æŸ¥çœ‹å½“å‰ç›®å½•
         // sh 'ls -lah'
     }
     }  finally {
@@ -48,36 +48,36 @@ node {
                  emailext body : '${FILE,path="${JENKINS_HOME}/email-templates/email.html"}',
                  mimeType: 'text/html',
                  to:'${MAIL_TO_USER}',
-                subject: '¹¹½¨Í¨Öª£º$PROJECT_NAME - Build # $BUILD_NUMBER - Success!'
+                subject: 'æ„å»ºé€šçŸ¥ï¼š$PROJECT_NAME - Build # $BUILD_NUMBER - Success!'
         }*/
         
         }
 
 }
 
-// Ö´ĞĞmavenÃüÁî£¬ĞèÒªÅäÖÃÂ·¾¶£¬mavenµÄ¹¤×÷Ä¿Â¼£¬mavenµÄ²ÎÊıÃüÁî¡£
+// æ‰§è¡Œmavenå‘½ä»¤ï¼Œéœ€è¦é…ç½®è·¯å¾„ï¼Œmavençš„å·¥ä½œç›®å½•ï¼Œmavençš„å‚æ•°å‘½ä»¤ã€‚
 def execMavenCommand(mvnTools, path, params) {
-    // ³õÊ¼»¯
+    // åˆå§‹åŒ–
     init(mvnTools);
-    // »ñÈ¡µ±Ç°Â·¾¶
+    // è·å–å½“å‰è·¯å¾„
    def curPath = pwd();
-   // ÏŞ¶¨15·ÖÖÓÄÚÍê³É
+   // é™å®š15åˆ†é’Ÿå†…å®Œæˆ
     timeout(time: 15, unit: 'MINUTES') {
         sh "cd ${curPath}${path} && mvn ${params} -V -B -Duser.timezone=GMT+08"
     }
 }
 
-// ³õÊ¼»¯£¬ÎªÁË¸üºÃ¼ò»¯¸÷¸önodeµÄ»·¾³³õÊ¼»¯£¬Òò´ËÔÙ´Î²ÉÓÃÍ³Ò»·½Ê½½øĞĞ³õÊ¼»¯¡£
+// åˆå§‹åŒ–ï¼Œä¸ºäº†æ›´å¥½ç®€åŒ–å„ä¸ªnodeçš„ç¯å¢ƒåˆå§‹åŒ–ï¼Œå› æ­¤å†æ¬¡é‡‡ç”¨ç»Ÿä¸€æ–¹å¼è¿›è¡Œåˆå§‹åŒ–ã€‚
 def init(mvnTools) {
-    // ¼ì²â´úÂë
+    // æ£€æµ‹ä»£ç 
     // coCode();
-    // Ìí¼Ómavenµ½»·¾³±äÁ¿ÖĞ¡£
+    // æ·»åŠ mavenåˆ°ç¯å¢ƒå˜é‡ä¸­ã€‚
     addMvnEnv(mvnTools);
 }
 
-// Ìí¼Ómavenµ½»·¾³±äÁ¿ÖĞ
+// æ·»åŠ mavenåˆ°ç¯å¢ƒå˜é‡ä¸­
 def addMvnEnv(t) {
-    // ¶¨Òåmaven×é¼ş
+    // å®šä¹‰mavenç»„ä»¶
     def mvnHome = tool t
     env.PATH = "${mvnHome}/bin:${env.PATH}"
 }
@@ -99,13 +99,13 @@ def coCode() {
 }
 
 
-// ´ÓpomÎÄ¼şÖĞ¹úÄê»ñÈ¡°æ±¾ºÅ
+// ä»pomæ–‡ä»¶ä¸­å›½å¹´è·å–ç‰ˆæœ¬å·
 def versionOfProject(path) {
     def matcher = readFile(path + '/pom.xml') =~ '<version>(.+)</version>'
     matcher ? matcher[0][1] : null
 }
 
-// ´ÓpomÎÄ¼şÖĞ»ñÈ¡ID
+// ä»pomæ–‡ä»¶ä¸­è·å–ID
 def artifactIdProject(path) {
     def matcher = readFile(path + '/pom.xml') =~ '<artifactId>(.+)</artifactId>'
     matcher ? matcher[0][1] : null
