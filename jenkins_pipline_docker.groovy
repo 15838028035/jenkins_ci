@@ -96,6 +96,7 @@ node {
         deleteDir()
         // 查看当前目录
         // sh 'ls -lah'
+	cleanWs();
     }
     }  finally {
 		if(params.IS_SEND_EMAIL) {
