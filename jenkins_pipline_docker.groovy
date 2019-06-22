@@ -69,13 +69,14 @@ node {
     // sonar
    stage("sonar代码扫描") {
          timeout(time: 15, unit: 'MINUTES') {
-	   if(params.IS_RUN_SONNAR) {
-		if(params.IS_MAVEN_DEBUG) {
-			execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.sources=. -X")
-		 }else {
-			execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.sources=. ")
-	    }
-         }
+		   if(params.IS_RUN_SONNAR) {
+				if(params.IS_MAVEN_DEBUG) {
+					execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.sources=. -X")
+				 }else {
+					execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.sources=. ")
+				}
+			 }
+		 }
     }
 
 	stage("docker镜像生成") {
