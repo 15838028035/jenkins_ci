@@ -34,28 +34,29 @@ node {
     }
     
 	stage("配置sonar配置文件"){
-            
-		dir("${WORKSPACE}"){
-			try{
-				sh "rm sonar-project.properties"
-			}catch(e){}
-				sh "echo 'sonar.projectKey=param.MODEL_NAMES' >> sonar-project.properties"
-				sh "echo 'sonar.projectName=param.MODEL_NAMES' >> sonar-project.properties"
-				sh "echo 'sonar.sourceEncoding=UTF-8' >> sonar-project.properties"
-				sh "echo 'sonar.modules=java-module,html-module' >> sonar-project.properties"
-				
-				sh "echo 'java-module.sonar.projectName=Java Module' >> sonar-project.properties"
-				sh "echo 'java-module.sonar.language=java' >> sonar-project.properties"
-				sh "echo 'java-module.sonar.sources=.' >> sonar-project.properties"
-				sh "echo 'java-module.sonar.projectBaseDir=src/main/java' >> sonar-project.properties"
-				sh "echo 'sonar.binaries=classes' >> sonar-project.properties"
-								
-				sh "echo 'html-module.sonar.projectName=Html Module ' >> sonar-project.properties"
-				sh "echo 'html-module.sonar.language=web ' >> sonar-project.properties"
-				sh "echo 'html-module.sonar.sources=.' >> sonar-project.properties"
-				sh "echo 'html-module.sonar.projectBaseDir=src/main/resources/static' >> sonar-project.properties"
-				
-				
+        if(params.IS_RUN_SONNAR) {    
+			dir("${WORKSPACE}"){
+				try{
+					sh "rm sonar-project.properties"
+				}catch(e){}
+					sh "echo 'sonar.projectKey=param.MODEL_NAMES' >> sonar-project.properties"
+					sh "echo 'sonar.projectName=param.MODEL_NAMES' >> sonar-project.properties"
+					sh "echo 'sonar.sourceEncoding=UTF-8' >> sonar-project.properties"
+					sh "echo 'sonar.modules=java-module,html-module' >> sonar-project.properties"
+					
+					sh "echo 'java-module.sonar.projectName=Java Module' >> sonar-project.properties"
+					sh "echo 'java-module.sonar.language=java' >> sonar-project.properties"
+					sh "echo 'java-module.sonar.sources=.' >> sonar-project.properties"
+					sh "echo 'java-module.sonar.projectBaseDir=src/main/java' >> sonar-project.properties"
+					sh "echo 'sonar.binaries=classes' >> sonar-project.properties"
+									
+					sh "echo 'html-module.sonar.projectName=Html Module ' >> sonar-project.properties"
+					sh "echo 'html-module.sonar.language=web ' >> sonar-project.properties"
+					sh "echo 'html-module.sonar.sources=.' >> sonar-project.properties"
+					sh "echo 'html-module.sonar.projectBaseDir=src/main/resources/static' >> sonar-project.properties"
+					
+					
+			}
 		}
 		           
 	}
