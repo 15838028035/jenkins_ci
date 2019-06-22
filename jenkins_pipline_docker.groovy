@@ -96,6 +96,9 @@ node {
         deleteDir()
         // 查看当前目录
         // sh 'ls -lah'
+	if(params.IS_GEN_DOCKER_IMG) {
+		 sh "docker system prune -af"
+	}
 	cleanWs();
     }
     }  finally {
