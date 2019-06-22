@@ -97,16 +97,14 @@ node {
     stage("发布到nexus中") {
         	if(params.IS_DEPLOY_NEXUS) {
                  timeout(time: 15, unit: 'MINUTES') {
-				 if(params.IS_MAVEN_DEBUG) {
-                    execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "deploy -Dmaven.test.skip=true -Dgpg.passphrase=${gpg_passphrase} -P release -Duser.timezone=GMT+08 -X")
-
-                 }else{
-					execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "deploy -Dmaven.test.skip=true -Dgpg.passphrase=${gpg_passphrase} -P release -Duser.timezone=GMT+08 ")
-				 }
+					 if(params.IS_MAVEN_DEBUG) {
+						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "deploy -Dmaven.test.skip=true -Dgpg.passphrase=${gpg_passphrase} -P release -Duser.timezone=GMT+08 -X")
+					 }else{
+						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "deploy -Dmaven.test.skip=true -Dgpg.passphrase=${gpg_passphrase} -P release -Duser.timezone=GMT+08 ")
+					 }
+				}
         	}
     }
-
-
 	
     stage("清理工程") {
         // 暂时不删除目录
