@@ -9,6 +9,7 @@
 * IS_DEPLOY_NEXUS 是否发布到nexus中
 * MODEL_NAMES 镜像模块名称
 * IS_SEND_EMAIL: 是否发送邮件
+* IS_MAVEN_DEBUG: 是否启用maven调试，默认值false
 */
 
 // 生命全局工具变量
@@ -30,7 +31,11 @@ node {
 
     // 组件编译测试
     stage("SCA编译&&测试") {
-        execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "clean compile -Dmaven.test.skip=true")
+	 if(params.IS_MAVEN_DEBUG) {
+        execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "clean compile -Dmaven.test.skip=true -X")
+	   }else {
+	   execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "clean compile -Dmaven.test.skip=true")
+	   }
     }
     
 	stage("配置sonar配置文件"){
@@ -65,16 +70,23 @@ node {
    stage("sonar代码扫描") {
          timeout(time: 15, unit: 'MINUTES') {
 	   if(params.IS_RUN_SONNAR) {
-		 execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.sources=. -X")
+		if(params.IS_MAVEN_DEBUG) {
+			execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.sources=. -X")
+		 }else {
+			execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.sources=. ")
 	    }
          }
     }
 
-	stage("SCA镜像生成") {
+	stage("docker镜像生成") {
 		if(params.IS_GEN_DOCKER_IMG) {
 			parallel '镜像生成': {
 					// 打包代码
-					execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true  -X ")
+					if(params.IS_MAVEN_DEBUG) {
+						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true  -X ")
+					}else {
+						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true   ")
+					}
 					buildAndPushImage(params.MODEL_NAMES)
 				 }
 					
@@ -85,8 +97,12 @@ node {
     stage("发布到nexus中") {
         	if(params.IS_DEPLOY_NEXUS) {
                  timeout(time: 15, unit: 'MINUTES') {
+				 if(params.IS_MAVEN_DEBUG) {
                     execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "deploy -Dmaven.test.skip=true -Dgpg.passphrase=${gpg_passphrase} -P release -Duser.timezone=GMT+08 -X")
-                 }
+
+                 }else{
+					execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "deploy -Dmaven.test.skip=true -Dgpg.passphrase=${gpg_passphrase} -P release -Duser.timezone=GMT+08 ")
+				 }
         	}
     }
 
