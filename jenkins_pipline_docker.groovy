@@ -4,7 +4,8 @@
 * GIT_URL:  仓库地址
 * GIT_BRANCH: 分支名称
 * GIT_CREDIT： jenkins凭据参数
-* IS_RUN_SONNAR: 是否执行ssonar扫描
+* IS_RUN_SONNAR: 是否执行sonar扫描
+* IS_RUN_SONNAR_HTML: 是否执行sonar html扫描
 * IS_GEN_DOCKER_IMG： 是否执行docker镜像
 * IS_DEPLOY_NEXUS 是否发布到nexus中
 * MODEL_NAMES 镜像模块名称
@@ -47,18 +48,25 @@ node {
 					sh "echo 'sonar.projectKey=param.MODEL_NAMES' >> sonar-project.properties"
 					sh "echo 'sonar.projectName=param.MODEL_NAMES' >> sonar-project.properties"
 					sh "echo 'sonar.sourceEncoding=UTF-8' >> sonar-project.properties"
-					sh "echo 'sonar.modules=java-module,html-module' >> sonar-project.properties"
+										
+					if(params.IS_RUN_SONNAR_HTML) {
+						sh "echo 'sonar.modules=java-module,html-module' >> sonar-project.properties"
+					}else {
+						sh "echo 'sonar.modules=java-module' >> sonar-project.properties"
+					}
 					
 					sh "echo 'java-module.sonar.projectName=Java Module' >> sonar-project.properties"
 					sh "echo 'java-module.sonar.language=java' >> sonar-project.properties"
 					sh "echo 'java-module.sonar.sources=.' >> sonar-project.properties"
 					sh "echo 'java-module.sonar.projectBaseDir=src/main/java' >> sonar-project.properties"
 					sh "echo 'sonar.binaries=classes' >> sonar-project.properties"
-									
-					sh "echo 'html-module.sonar.projectName=Html Module ' >> sonar-project.properties"
-					sh "echo 'html-module.sonar.language=web ' >> sonar-project.properties"
-					sh "echo 'html-module.sonar.sources=.' >> sonar-project.properties"
-					sh "echo 'html-module.sonar.projectBaseDir=src/main/resources/static' >> sonar-project.properties"
+					
+					if(params.IS_RUN_SONNAR_HTML) {					
+						sh "echo 'html-module.sonar.projectName=Html Module ' >> sonar-project.properties"
+						sh "echo 'html-module.sonar.language=web ' >> sonar-project.properties"
+						sh "echo 'html-module.sonar.sources=.' >> sonar-project.properties"
+						sh "echo 'html-module.sonar.projectBaseDir=src/main/resources/static' >> sonar-project.properties"
+					}
 					
 					
 			}
