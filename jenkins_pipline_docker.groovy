@@ -4,12 +4,12 @@
 * GIT_URL:  仓库地址
 * GIT_BRANCH: 分支名称
 * GIT_CREDIT： jenkins凭据参数
-* IS_RUN_SONNAR: 是否执行sonar扫描
-* IS_RUN_SONNAR_HTML: 是否执行sonar html扫描
+* IS_RUN_SONAR: 是否执行sonar扫描
+* IS_RUN_SONAR_HTML: 是否执行sonar html扫描
 * IS_GEN_DOCKER_IMG： 是否执行docker镜像
 * IS_DEPLOY_NEXUS 是否发布到nexus中
 * MODEL_NAMES 镜像模块名称
-* IS_SEND_EMAIL: 是否发送邮件
+* IS_SEND_EMAIL: 是否发送邮件通知
 * IS_MAVEN_DEBUG: 是否启用maven调试，默认值false
 */
 
@@ -22,6 +22,20 @@ def GLOBAL_TOOL_MAVEN_ID = 'MAVEN_HOME'
 node {
     
     try{
+	 stage("打印请求参数") {
+       echo "仓库地址:" +params.GIT_URL
+	   echo "分支名称:" +params.GIT_BRANCH
+	   echo "jenkins凭据参数:" +params.GIT_CREDIT
+	   echo "是否执行sonar扫描:" +params.IS_RUN_SONAR
+	   echo "是否执行sonar html扫描:" +params.IS_RUN_SONAR_HTML
+	   echo "是否执行docker镜像:" +params.IS_GEN_DOCKER_IMG
+	   echo "是否发布到nexus中:" +params.IS_DEPLOY_NEXUS
+	   echo "镜像模块名称:" +params.MODEL_NAMES
+	   echo "是否发送邮件通知:" +params.IS_SEND_EMAIL
+	   echo "是否启用maven调试，默认值false:" +params.IS_MAVEN_DEBUG
+	   
+    }
+	
     // 全局获取最新代码
     stage("获取最新代码") {
         // 限制15分钟内完成。
@@ -40,7 +54,7 @@ node {
     }
     
 	stage("配置sonar配置文件"){
-        if(params.IS_RUN_SONNAR) {    
+        if(params.IS_RUN_SONAR) {    
 			dir("${WORKSPACE}"){
 				try{
 					sh "rm sonar-project.properties"
@@ -49,7 +63,7 @@ node {
 					sh "echo 'sonar.projectName=param.MODEL_NAMES' >> sonar-project.properties"
 					sh "echo 'sonar.sourceEncoding=UTF-8' >> sonar-project.properties"
 										
-					if(params.IS_RUN_SONNAR_HTML) {
+					if(params.IS_RUN_SONAR_HTML) {
 						sh "echo 'sonar.modules=java-module,html-module' >> sonar-project.properties"
 					}else {
 						sh "echo 'sonar.modules=java-module' >> sonar-project.properties"
@@ -61,7 +75,7 @@ node {
 					sh "echo 'java-module.sonar.projectBaseDir=src/main/java' >> sonar-project.properties"
 					sh "echo 'sonar.binaries=classes' >> sonar-project.properties"
 					
-					if(params.IS_RUN_SONNAR_HTML) {					
+					if(params.IS_RUN_SONAR_HTML) {					
 						sh "echo 'html-module.sonar.projectName=Html Module ' >> sonar-project.properties"
 						sh "echo 'html-module.sonar.language=web ' >> sonar-project.properties"
 						sh "echo 'html-module.sonar.sources=.' >> sonar-project.properties"
@@ -77,15 +91,16 @@ node {
     // sonar
    stage("sonar代码扫描") {
          timeout(time: 15, unit: 'MINUTES') {
-		   if(params.IS_RUN_SONNAR) {
+		   if(params.IS_RUN_SONAR) {
 				if(params.IS_MAVEN_DEBUG) {
-					if(params.IS_RUN_SONNAR_HTML) {	
+					if(params.IS_RUN_SONAR_HTML) {	
 						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.sources=. -X")
 					}else {
 						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=${SONAR_HOST} -X")
 					}
 				 }else {
-					if(params.IS_RUN_SONNAR_HTML) {	
+					
+					if(params.IS_RUN_SONAR_HTML) {	
 						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=${SONAR_HOST} -Dsonar.sources=. ")
 					}else {
 						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "", "sonar:sonar -Dsonar.host.url=${SONAR_HOST}  ")
