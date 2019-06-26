@@ -22,7 +22,25 @@ def GLOBAL_TOOL_MAVEN_ID = 'MAVEN_HOME'
 node {
     
     try{
+	stage("使用帮助介绍") {
+	   echo "=======================使用帮助开始================="
+	   echo "请在jenkins上建立pipeline流水线，设置参数化请求参数"
+       echo "仓库地址GIT_URL,字符串类型"
+	   echo "分支名称GIT_BRANCH,字符串类型"
+	   echo "jenkins凭据参数GIT_CREDIT,字符串类型"
+	   echo "是否执行sonar扫描IS_RUN_SONAR,boolean类型"
+	   echo "是否执行sonar html扫描IS_RUN_SONAR_HTML,boolean类型"
+	   echo "是否执行docker镜像IS_GEN_DOCKER_IMG,boolean类型"
+	   echo "是否发布到nexus中IS_DEPLOY_NEXUS,boolean类型"
+	   echo "镜像模块名称MODEL_NAMES,,字符串类型"
+	   echo "是否发送邮件通知IS_SEND_EMAIL,boolean类型"
+	   echo "是否启用maven调试，默认值false，IS_MAVEN_DEBUG,boolean类型"
+	   echo "=======================使用帮助结束================="
+	   
+    }
+	
 	 stage("打印请求参数") {
+	   echo "请求参数信息显示如下:"
        echo "仓库地址GIT_URL:" +params.GIT_URL
 	   echo "分支名称GIT_BRANCH:" +params.GIT_BRANCH
 	   echo "jenkins凭据参数GIT_CREDIT:" +params.GIT_CREDIT
