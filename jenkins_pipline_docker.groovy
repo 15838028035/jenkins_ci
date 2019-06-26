@@ -23,16 +23,16 @@ node {
     
     try{
 	 stage("打印请求参数") {
-       echo "仓库地址:" +params.GIT_URL
-	   echo "分支名称:" +params.GIT_BRANCH
-	   echo "jenkins凭据参数:" +params.GIT_CREDIT
-	   echo "是否执行sonar扫描:" +params.IS_RUN_SONAR
-	   echo "是否执行sonar html扫描:" +params.IS_RUN_SONAR_HTML
-	   echo "是否执行docker镜像:" +params.IS_GEN_DOCKER_IMG
-	   echo "是否发布到nexus中:" +params.IS_DEPLOY_NEXUS
-	   echo "镜像模块名称:" +params.MODEL_NAMES
-	   echo "是否发送邮件通知:" +params.IS_SEND_EMAIL
-	   echo "是否启用maven调试，默认值false:" +params.IS_MAVEN_DEBUG
+       echo "仓库地址GIT_URL:" +params.GIT_URL
+	   echo "分支名称GIT_BRANCH:" +params.GIT_BRANCH
+	   echo "jenkins凭据参数GIT_CREDIT:" +params.GIT_CREDIT
+	   echo "是否执行sonar扫描IS_RUN_SONAR:" +params.IS_RUN_SONAR
+	   echo "是否执行sonar html扫描IS_RUN_SONAR_HTML:" +params.IS_RUN_SONAR_HTML
+	   echo "是否执行docker镜像IS_GEN_DOCKER_IMG:" +params.IS_GEN_DOCKER_IMG
+	   echo "是否发布到nexus中IS_DEPLOY_NEXUS:" +params.IS_DEPLOY_NEXUS
+	   echo "镜像模块名称MODEL_NAMES:" +params.MODEL_NAMES
+	   echo "是否发送邮件通知IS_SEND_EMAIL:" +params.IS_SEND_EMAIL
+	   echo "是否启用maven调试，默认值false，IS_MAVEN_DEBUG:" +params.IS_MAVEN_DEBUG
 	   
     }
 	
