@@ -1,6 +1,7 @@
 /*
 *  通用jenkins自动构建pipline文件
 * 参数说明:
+* IS_VIEW_HELP:是否查看使用帮助介绍
 * GIT_URL:  仓库地址
 * GIT_BRANCH: 分支名称
 * GIT_CREDIT： jenkins凭据参数
@@ -23,19 +24,22 @@ node {
     
     try{
 	stage("使用帮助介绍") {
-	   echo "=======================使用帮助开始================="
-	   echo "请在jenkins上建立pipeline流水线，设置参数化请求参数"
-       echo "仓库地址：GIT_URL,字符串类型"
-	   echo "分支名称：GIT_BRANCH,字符串类型"
-	   echo "jenkins凭据参数：GIT_CREDIT,字符串类型"
-	   echo "是否执行sonar扫描：IS_RUN_SONAR,boolean类型"
-	   echo "是否执行sonar html扫描：IS_RUN_SONAR_HTML,boolean类型"
-	   echo "是否执行docker镜像：IS_GEN_DOCKER_IMG,boolean类型"
-	   echo "是否发布到nexus中：IS_DEPLOY_NEXUS,boolean类型"
-	   echo "镜像模块名称：MODEL_NAMES,字符串类型"
-	   echo "是否发送邮件通知：IS_SEND_EMAIL,boolean类型"
-	   echo "是否启用maven调试:IS_MAVEN_DEBUG,boolean类型"
-	   echo "=======================使用帮助结束================="
+		 if(params.IS_VIEW_HELP) {
+		   echo "=======================使用帮助开始================="
+		   echo "请在jenkins上建立pipeline流水线，设置参数化请求参数"
+		   echo "是否查看使用帮助介绍：IS_VIEW_HELP,boolean类型"
+		   echo "仓库地址：GIT_URL,字符串类型"
+		   echo "分支名称：GIT_BRANCH,字符串类型"
+		   echo "jenkins凭据参数：GIT_CREDIT,字符串类型"
+		   echo "是否执行sonar扫描：IS_RUN_SONAR,boolean类型"
+		   echo "是否执行sonar html扫描：IS_RUN_SONAR_HTML,boolean类型"
+		   echo "是否执行docker镜像：IS_GEN_DOCKER_IMG,boolean类型"
+		   echo "是否发布到nexus中：IS_DEPLOY_NEXUS,boolean类型"
+		   echo "镜像模块名称：MODEL_NAMES,字符串类型"
+		   echo "是否发送邮件通知：IS_SEND_EMAIL,boolean类型"
+		   echo "是否启用maven调试:IS_MAVEN_DEBUG,boolean类型"
+		   echo "=======================使用帮助结束================="
+	   }
 	   
     }
 	
