@@ -1,0 +1,60 @@
+server: 
+  port: 18086
+spring:
+    application: 
+      name: jenkinsci
+    jackson: 
+          date-format: yyyy-MM-dd HH:mm:ss
+          timezone: GMT+8
+          serialization:
+              indent_output: true
+#文件上传最大  格式为 MB 或 KB  不支持GB
+maxFileSize: 51200MB
+maxRequestSize: 51200MB
+
+#token单位时长，60000毫秒=1分钟，禁止修改
+jtwTokenTimeOut: 60000
+
+#开发测试环境启用swagger,生产环境禁用swagger
+swagger2: 
+  enable: false
+  #swagger扫描包
+  swagger2BasePackage:  com.thinkit.cloud.jenkinsci.controller
+#swagger标题
+  title: jenkinsci
+#swagger描述
+  description: jenkinsci service 
+   #swager 版本
+  version: 1.0
+
+# jenkins 配置信息
+jenkins_url: http://192.168.96.89:7480/jenkins
+jenkins_username: admin
+jenkins_password: 123456
+
+# job自动构建信息
+builds:
+   buildjob[0]:
+      JOB_NAME: "microservice-common-util-job1"
+      GIT_URL: "https://github.com/15838028035/microservice-common-util.git"
+      GIT_BRANCH: "master"
+      GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
+      IS_RUN_SONAR: true
+      IS_RUN_SONAR_HTML: false
+      IS_GEN_DOCKER_IMG: false
+      IS_DEPLOY_NEXUS: true
+      MODEL_NAMES: "microservice-common-util"
+      IS_SEND_EMAIL: true
+      IS_MAVEN_DEBUG: false
+   buildjob[1]:
+      JOB_NAME: "Audio_Model-job"
+      GIT_URL: "http://192.168.96.89:3000/Model_Training/Audio_Model.git"
+      GIT_BRANCH: "master"
+      GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
+      IS_RUN_SONAR: true
+      IS_RUN_SONAR_HTML: false
+      IS_GEN_DOCKER_IMG: false
+      IS_DEPLOY_NEXUS: true
+      MODEL_NAMES: "Audio_Model"
+      IS_SEND_EMAIL: true
+      IS_MAVEN_DEBUG: false
