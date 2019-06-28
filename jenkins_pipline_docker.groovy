@@ -1,6 +1,7 @@
 /*
 *  通用jenkins自动构建pipline文件
 * 参数说明:
+* IS_VIEW_HELP:是否查看使用帮助介绍
 * GIT_URL:  仓库地址
 * GIT_BRANCH: 分支名称
 * GIT_CREDIT： jenkins凭据参数
@@ -22,17 +23,38 @@ def GLOBAL_TOOL_MAVEN_ID = 'MAVEN_HOME'
 node {
     
     try{
+	stage("使用帮助介绍") {
+		 if(params.IS_VIEW_HELP) {
+		   echo "=======================使用帮助开始================="
+		   echo "请在jenkins上建立pipeline流水线，设置参数化请求参数"
+		   echo "是否查看使用帮助介绍：IS_VIEW_HELP,boolean类型"
+		   echo "仓库地址：GIT_URL,字符串类型"
+		   echo "分支名称：GIT_BRANCH,字符串类型"
+		   echo "jenkins凭据参数：GIT_CREDIT,字符串类型"
+		   echo "是否执行sonar扫描：IS_RUN_SONAR,boolean类型"
+		   echo "是否执行sonar html扫描：IS_RUN_SONAR_HTML,boolean类型"
+		   echo "是否执行docker镜像：IS_GEN_DOCKER_IMG,boolean类型"
+		   echo "是否发布到nexus中：IS_DEPLOY_NEXUS,boolean类型"
+		   echo "镜像模块名称：MODEL_NAMES,字符串类型"
+		   echo "是否发送邮件通知：IS_SEND_EMAIL,boolean类型"
+		   echo "是否启用maven调试:IS_MAVEN_DEBUG,boolean类型"
+		   echo "=======================使用帮助结束================="
+	   }
+	   
+    }
+	
 	 stage("打印请求参数") {
-       echo "仓库地址:" +params.GIT_URL
-	   echo "分支名称:" +params.GIT_BRANCH
-	   echo "jenkins凭据参数:" +params.GIT_CREDIT
-	   echo "是否执行sonar扫描:" +params.IS_RUN_SONAR
-	   echo "是否执行sonar html扫描:" +params.IS_RUN_SONAR_HTML
-	   echo "是否执行docker镜像:" +params.IS_GEN_DOCKER_IMG
-	   echo "是否发布到nexus中:" +params.IS_DEPLOY_NEXUS
-	   echo "镜像模块名称:" +params.MODEL_NAMES
-	   echo "是否发送邮件通知:" +params.IS_SEND_EMAIL
-	   echo "是否启用maven调试，默认值false:" +params.IS_MAVEN_DEBUG
+	   echo "请求参数信息显示如下:"
+       echo "仓库地址GIT_URL:" +params.GIT_URL
+	   echo "分支名称GIT_BRANCH:" +params.GIT_BRANCH
+	   echo "jenkins凭据参数GIT_CREDIT:" +params.GIT_CREDIT
+	   echo "是否执行sonar扫描IS_RUN_SONAR:" +params.IS_RUN_SONAR
+	   echo "是否执行sonar html扫描IS_RUN_SONAR_HTML:" +params.IS_RUN_SONAR_HTML
+	   echo "是否执行docker镜像IS_GEN_DOCKER_IMG:" +params.IS_GEN_DOCKER_IMG
+	   echo "是否发布到nexus中IS_DEPLOY_NEXUS:" +params.IS_DEPLOY_NEXUS
+	   echo "镜像模块名称MODEL_NAMES:" +params.MODEL_NAMES
+	   echo "是否发送邮件通知IS_SEND_EMAIL:" +params.IS_SEND_EMAIL
+	   echo "是否启用maven调试，默认值false，IS_MAVEN_DEBUG:" +params.IS_MAVEN_DEBUG
 	   
     }
 	
