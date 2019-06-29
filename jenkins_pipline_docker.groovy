@@ -137,9 +137,9 @@ node {
 			parallel '镜像生成': {
 					// 打包代码
 					if(params.IS_MAVEN_DEBUG) {
-						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true  -X ")
+						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true -P profile1  -X ")
 					}else {
-						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true   ")
+						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true -P profile1  ")
 					}
 					buildAndPushImage(params.MODEL_NAMES)
 				 }
