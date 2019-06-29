@@ -137,9 +137,9 @@ node {
 			parallel '镜像生成': {
 					// 打包代码
 					if(params.IS_MAVEN_DEBUG) {
-						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true -P profile2  -X ")
+						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true  -X ")
 					}else {
-						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true -P profile2  ")
+						execMavenCommand(GLOBAL_TOOL_MAVEN_ID, "/", "clean package -Dmaven.test.skip=true  ")
 					}
 					buildAndPushImage(params.MODEL_NAMES)
 				 }
@@ -233,7 +233,7 @@ def buildAndPushImage(moduleHome) {
 
     def buildPath = workPath + "/target/docker";
     // 创建构建目录，并拷贝文件。
-    sh "mkdir -p ${buildPath} && cp ${workPath}/src/main/docker/Dockerfile ${buildPath}/ && cp ${workPath}/target/*.jar ${buildPath}/"
+    sh "mkdir -p ${buildPath} && mkdir -p ${buildPath}/config && cp ${workPath}/src/main/docker/Dockerfile ${buildPath}/ && cp ${workPath}/target/*.jar ${buildPath}/ && cp ${workPath}/target/classes/*.properties ${buildPath}/config && cp ${workPath}/target/classes/*.yml ${buildPath}/config"
 
     // 声明凭证，该凭证来自jenkins
     def docker_cer = 'docker-hub-10-1-245-53'
