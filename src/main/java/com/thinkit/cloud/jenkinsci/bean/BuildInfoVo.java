@@ -7,12 +7,18 @@ package com.thinkit.cloud.jenkinsci.bean;
 public class BuildInfoVo {
 
 	/**
-	 * jobming名称
+	 * job名称
 	 */
 	private String JOB_NAME;
 	
+	/**
+	 * git url地址
+	 */
 	private String GIT_URL;
 	
+	/**
+	 * 分支名称
+	 */
 	private String GIT_BRANCH;
 	
 	/**
