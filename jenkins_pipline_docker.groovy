@@ -84,8 +84,8 @@ node {
 				try{
 					sh "rm sonar-project.properties"
 				}catch(e){}
-					sh "echo 'sonar.projectKey=param.MODEL_NAMES:params.GIT_BRANCH' >> sonar-project.properties"
-					sh "echo 'sonar.projectName=param.MODEL_NAMES:params.GIT_BRANCH' >> sonar-project.properties"
+					sh "echo 'sonar.projectKey=params.MODEL_NAMES:params.GIT_BRANCH' >> sonar-project.properties"
+					sh "echo 'sonar.projectName=params.MODEL_NAMES:params.GIT_BRANCH' >> sonar-project.properties"
 					sh "echo 'sonar.sourceEncoding=UTF-8' >> sonar-project.properties"
 										
 					if(params.IS_RUN_SONAR_HTML) {
