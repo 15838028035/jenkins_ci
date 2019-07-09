@@ -4,6 +4,7 @@
 * IS_VIEW_HELP:是否查看使用帮助介绍
 * GIT_URL:  仓库地址
 * GIT_BRANCH: 分支名称
+* IS_USE_GIT_TAG： 是否使用git tag
 * GIT_CREDIT： jenkins凭据参数
 * IS_RUN_SONAR: 是否执行sonar扫描
 * IS_RUN_SONAR_HTML: 是否执行sonar html扫描
@@ -29,7 +30,8 @@ node {
 		   echo "请在jenkins上建立pipeline流水线，设置参数化请求参数"
 		   echo "是否查看使用帮助介绍：IS_VIEW_HELP,boolean类型"
 		   echo "仓库地址：GIT_URL,字符串类型"
-		   echo "分支名称：GIT_BRANCH,字符串类型"
+		   echo "分支名称：GIT_BRANCH"
+		   echo "是否使用git tag：IS_USE_GIT_TAG,boolean类型"
 		   echo "jenkins凭据参数：GIT_CREDIT,字符串类型"
 		   echo "是否执行sonar扫描：IS_RUN_SONAR,boolean类型"
 		   echo "是否执行sonar html扫描：IS_RUN_SONAR_HTML,boolean类型"
@@ -47,6 +49,7 @@ node {
 	   echo "请求参数信息显示如下:"
        echo "仓库地址GIT_URL:" +params.GIT_URL
 	   echo "分支名称GIT_BRANCH:" +params.GIT_BRANCH
+	   echo "是否使用git tag IS_USE_GIT_TAG:" +params.IS_USE_GIT_TAG
 	   echo "jenkins凭据参数GIT_CREDIT:" +params.GIT_CREDIT
 	   echo "是否执行sonar扫描IS_RUN_SONAR:" +params.IS_RUN_SONAR
 	   echo "是否执行sonar html扫描IS_RUN_SONAR_HTML:" +params.IS_RUN_SONAR_HTML
@@ -211,8 +214,20 @@ def addMvnEnv(t) {
 
 def coCode() {
 
-            
-   checkout([
+   if(params.IS_USE_GIT_TAG) {
+    checkout([
+       $class: 'GitSCM', 
+       branches: [[name: 'refs/tags/'+params.GIT_BRANCH]],
+       doGenerateSubmoduleConfigurations: false, 
+       extensions: [], 
+       submoduleCfg: [], 
+       userRemoteConfigs: [[credentialsId: params.GIT_CREDIT, 
+       url: params.GIT_URL
+       ]
+       ]]
+       )
+   }else {
+     checkout([
        $class: 'GitSCM', 
        branches: [[name: 'refs/heads/'+params.GIT_BRANCH]],
        doGenerateSubmoduleConfigurations: false, 
@@ -223,6 +238,8 @@ def coCode() {
        ]
        ]]
        )
+   }         
+  
 }
 
 def buildAndPushImage(moduleHome) {
