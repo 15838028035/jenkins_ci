@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+
+<mapper namespace="com.thinkit.cloud.jenkinsci.dao.JenkinsJobMapper">
+    <resultMap id="jenkinsJobResult" type="com.thinkit.cloud.jenkinsci.bean.JenkinsJob">
+   	  	<result property="id" column="id" jdbcType="BIGINT"   />
+   	  	<result property="jobName" column="job_name" jdbcType="VARCHAR"   />
+   	  	<result property="gitUrl" column="GIT_URL" jdbcType="VARCHAR"   />
+   	  	<result property="gitBranch" column="GIT_BRANCH" jdbcType="VARCHAR"   />
+   	  	<result property="gitCredit" column="GIT_CREDIT" jdbcType="VARCHAR"   />
+   	  	<result property="isUseGitTag" column="IS_USE_GIT_TAG" jdbcType="TINYINT"   />
+   	  	<result property="isRunSonar" column="IS_RUN_SONAR" jdbcType="TINYINT"   />
+   	  	<result property="isRunSonarHtml" column="IS_RUN_SONAR_HTML" jdbcType="TINYINT"   />
+   	  	<result property="isGenDockerImg" column="IS_GEN_DOCKER_IMG" jdbcType="TINYINT"   />
+   	  	<result property="isDeployNexus" column="IS_DEPLOY_NEXUS" jdbcType="TINYINT"   />
+   	  	<result property="modelNames" column="MODEL_NAMES" jdbcType="VARCHAR"   />
+   	  	<result property="isSendEmail" column="IS_SEND_EMAIL" jdbcType="TINYINT"   />
+   	  	<result property="isMavenDebug" column="IS_MAVEN_DEBUG" jdbcType="TINYINT"   />
+   	  	<result property="createUserId" column="create_user_id" jdbcType="BIGINT"   />
+   	  	<result property="createUserName" column="create_user_name" jdbcType="VARCHAR"   />
+   	  	<result property="createTime" column="create_time" jdbcType="TIMESTAMP"   />
+   	  	<result property="updateUserId" column="update_user_id" jdbcType="BIGINT"   />
+   	  	<result property="updateUserName" column="update_user_name" jdbcType="VARCHAR"   />
+   	  	<result property="updateTime" column="update_time" jdbcType="TIMESTAMP"   />
+    </resultMap>
+
+	<sql id="Base_Column_List">
+	    <![CDATA[
+	   
+        	id ,
+        	job_name ,
+        	GIT_URL ,
+        	GIT_BRANCH ,
+        	GIT_CREDIT ,
+        	IS_USE_GIT_TAG ,
+        	IS_RUN_SONAR ,
+        	IS_RUN_SONAR_HTML ,
+        	IS_GEN_DOCKER_IMG ,
+        	IS_DEPLOY_NEXUS ,
+        	MODEL_NAMES ,
+        	IS_SEND_EMAIL ,
+        	IS_MAVEN_DEBUG ,
+        	create_user_id ,
+        	create_user_name ,
+        	create_time ,
+        	update_user_id ,
+        	update_user_name ,
+        	update_time 
+	    ]]>
+	</sql>
+
+   <select id="selectByPrimaryKey" resultMap="jenkinsJobResult">
+	 select 
+	    <include refid="Base_Column_List"/>
+	    
+	        from jenkins_job 
+	        where 
+		       id = #{id,jdbcType=BIGINT}
+			
+</select>
+
+ <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+           delete from jenkins_job where
+        id = #{id,jdbcType=BIGINT}
+	
+       </delete>
+
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+
+        INSERT INTO jenkins_job (
+         id, job_name, GIT_URL, GIT_BRANCH, GIT_CREDIT, IS_USE_GIT_TAG, IS_RUN_SONAR, IS_RUN_SONAR_HTML, IS_GEN_DOCKER_IMG, IS_DEPLOY_NEXUS, MODEL_NAMES, IS_SEND_EMAIL, IS_MAVEN_DEBUG, create_user_id, create_user_name, create_time, update_user_id, update_user_name, update_time
+        ) VALUES (
+         #{id,jdbcType=BIGINT}, #{jobName,jdbcType=VARCHAR}, #{gitUrl,jdbcType=VARCHAR}, #{gitBranch,jdbcType=VARCHAR}, #{gitCredit,jdbcType=VARCHAR}, #{isUseGitTag,jdbcType=TINYINT}, #{isRunSonar,jdbcType=TINYINT}, #{isRunSonarHtml,jdbcType=TINYINT}, #{isGenDockerImg,jdbcType=TINYINT}, #{isDeployNexus,jdbcType=TINYINT}, #{modelNames,jdbcType=VARCHAR}, #{isSendEmail,jdbcType=TINYINT}, #{isMavenDebug,jdbcType=TINYINT}, #{createUserId,jdbcType=BIGINT}, #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateUserName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}        
+        )
+   
+</insert>
+
+ <insert id="insertSelective" parameterType="com.thinkit.cloud.jenkinsci.bean.JenkinsJob">
+          INSERT INTO jenkins_job 
+	         <trim prefix="(" suffix=")" suffixOverrides="," >
+	    	<if test="id != null" >
+        		id,
+     	 	</if>
+	    	<if test="jobName != null" >
+        		job_name,
+     	 	</if>
+	    	<if test="gitUrl != null" >
+        		GIT_URL,
+     	 	</if>
+	    	<if test="gitBranch != null" >
+        		GIT_BRANCH,
+     	 	</if>
+	    	<if test="gitCredit != null" >
+        		GIT_CREDIT,
+     	 	</if>
+	    	<if test="isUseGitTag != null" >
+        		IS_USE_GIT_TAG,
+     	 	</if>
+	    	<if test="isRunSonar != null" >
+        		IS_RUN_SONAR,
+     	 	</if>
+	    	<if test="isRunSonarHtml != null" >
+        		IS_RUN_SONAR_HTML,
+     	 	</if>
+	    	<if test="isGenDockerImg != null" >
+        		IS_GEN_DOCKER_IMG,
+     	 	</if>
+	    	<if test="isDeployNexus != null" >
+        		IS_DEPLOY_NEXUS,
+     	 	</if>
+	    	<if test="modelNames != null" >
+        		MODEL_NAMES,
+     	 	</if>
+	    	<if test="isSendEmail != null" >
+        		IS_SEND_EMAIL,
+     	 	</if>
+	    	<if test="isMavenDebug != null" >
+        		IS_MAVEN_DEBUG,
+     	 	</if>
+	    	<if test="createUserId != null" >
+        		create_user_id,
+     	 	</if>
+	    	<if test="createUserName != null" >
+        		create_user_name,
+     	 	</if>
+	    	<if test="createTime != null" >
+        		create_time,
+     	 	</if>
+	    	<if test="updateUserId != null" >
+        		update_user_id,
+     	 	</if>
+	    	<if test="updateUserName != null" >
+        		update_user_name,
+     	 	</if>
+	    	<if test="updateTime != null" >
+        		update_time,
+     	 	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+
+	    		<if test="id != null" >
+        		     #{id,jdbcType=BIGINT},
+     	 		</if>
+	    		<if test="jobName != null" >
+        		     #{jobName,jdbcType=VARCHAR},
+     	 		</if>
+	    		<if test="gitUrl != null" >
+        		     #{gitUrl,jdbcType=VARCHAR},
+     	 		</if>
+	    		<if test="gitBranch != null" >
+        		     #{gitBranch,jdbcType=VARCHAR},
+     	 		</if>
+	    		<if test="gitCredit != null" >
+        		     #{gitCredit,jdbcType=VARCHAR},
+     	 		</if>
+	    		<if test="isUseGitTag != null" >
+        		     #{isUseGitTag,jdbcType=TINYINT},
+     	 		</if>
+	    		<if test="isRunSonar != null" >
+        		     #{isRunSonar,jdbcType=TINYINT},
+     	 		</if>
+	    		<if test="isRunSonarHtml != null" >
+        		     #{isRunSonarHtml,jdbcType=TINYINT},
+     	 		</if>
+	    		<if test="isGenDockerImg != null" >
+        		     #{isGenDockerImg,jdbcType=TINYINT},
+     	 		</if>
+	    		<if test="isDeployNexus != null" >
+        		     #{isDeployNexus,jdbcType=TINYINT},
+     	 		</if>
+	    		<if test="modelNames != null" >
+        		     #{modelNames,jdbcType=VARCHAR},
+     	 		</if>
+	    		<if test="isSendEmail != null" >
+        		     #{isSendEmail,jdbcType=TINYINT},
+     	 		</if>
+	    		<if test="isMavenDebug != null" >
+        		     #{isMavenDebug,jdbcType=TINYINT},
+     	 		</if>
+	    		<if test="createUserId != null" >
+        		     #{createUserId,jdbcType=BIGINT},
+     	 		</if>
+	    		<if test="createUserName != null" >
+        		     #{createUserName,jdbcType=VARCHAR},
+     	 		</if>
+	    		<if test="createTime != null" >
+        		     #{createTime,jdbcType=TIMESTAMP},
+     	 		</if>
+	    		<if test="updateUserId != null" >
+        		     #{updateUserId,jdbcType=BIGINT},
+     	 		</if>
+	    		<if test="updateUserName != null" >
+        		     #{updateUserName,jdbcType=VARCHAR},
+     	 		</if>
+	    		<if test="updateTime != null" >
+        		     #{updateTime,jdbcType=TIMESTAMP},
+     	 		</if>
+		</trim>
+ </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.thinkit.cloud.jenkinsci.bean.JenkinsJob">
+    
+        UPDATE jenkins_job 
+     
+      <set >
+				<if test="jobName != null and  jobName != ''" >
+				job_name = #{jobName,jdbcType=VARCHAR} ,
+				</if>
+				<if test="gitUrl != null and  gitUrl != ''" >
+				GIT_URL = #{gitUrl,jdbcType=VARCHAR} ,
+				</if>
+				<if test="gitBranch != null and  gitBranch != ''" >
+				GIT_BRANCH = #{gitBranch,jdbcType=VARCHAR} ,
+				</if>
+				<if test="gitCredit != null and  gitCredit != ''" >
+				GIT_CREDIT = #{gitCredit,jdbcType=VARCHAR} ,
+				</if>
+				<if test="isUseGitTag != null ">
+				IS_USE_GIT_TAG = #{isUseGitTag,jdbcType=TINYINT} ,
+				</if>
+				<if test="isRunSonar != null ">
+				IS_RUN_SONAR = #{isRunSonar,jdbcType=TINYINT} ,
+				</if>
+				<if test="isRunSonarHtml != null ">
+				IS_RUN_SONAR_HTML = #{isRunSonarHtml,jdbcType=TINYINT} ,
+				</if>
+				<if test="isGenDockerImg != null ">
+				IS_GEN_DOCKER_IMG = #{isGenDockerImg,jdbcType=TINYINT} ,
+				</if>
+				<if test="isDeployNexus != null ">
+				IS_DEPLOY_NEXUS = #{isDeployNexus,jdbcType=TINYINT} ,
+				</if>
+				<if test="modelNames != null and  modelNames != ''" >
+				MODEL_NAMES = #{modelNames,jdbcType=VARCHAR} ,
+				</if>
+				<if test="isSendEmail != null ">
+				IS_SEND_EMAIL = #{isSendEmail,jdbcType=TINYINT} ,
+				</if>
+				<if test="isMavenDebug != null ">
+				IS_MAVEN_DEBUG = #{isMavenDebug,jdbcType=TINYINT} ,
+				</if>
+				<if test="createUserId != null ">
+				create_user_id = #{createUserId,jdbcType=BIGINT} ,
+				</if>
+				<if test="createUserName != null and  createUserName != ''" >
+				create_user_name = #{createUserName,jdbcType=VARCHAR} ,
+				</if>
+				<if test="createTime != null ">
+				create_time = #{createTime,jdbcType=TIMESTAMP} ,
+				</if>
+				<if test="updateUserId != null ">
+				update_user_id = #{updateUserId,jdbcType=BIGINT} ,
+				</if>
+				<if test="updateUserName != null and  updateUserName != ''" >
+				update_user_name = #{updateUserName,jdbcType=VARCHAR} ,
+				</if>
+				<if test="updateTime != null ">
+				update_time = #{updateTime,jdbcType=TIMESTAMP} ,
+				</if>
+
+	 </set>
+        WHERE 
+	        id = #{id,jdbcType=BIGINT}
+		
+    </update>
+   
+    <update id="updateByPrimaryKey" >
+
+        UPDATE jenkins_job SET
+	        job_name = #{jobName} , GIT_URL = #{gitUrl} , GIT_BRANCH = #{gitBranch} , GIT_CREDIT = #{gitCredit} , IS_USE_GIT_TAG = #{isUseGitTag} , IS_RUN_SONAR = #{isRunSonar} , IS_RUN_SONAR_HTML = #{isRunSonarHtml} , IS_GEN_DOCKER_IMG = #{isGenDockerImg} , IS_DEPLOY_NEXUS = #{isDeployNexus} , MODEL_NAMES = #{modelNames} , IS_SEND_EMAIL = #{isSendEmail} , IS_MAVEN_DEBUG = #{isMavenDebug} , create_user_id = #{createUserId} , create_user_name = #{createUserName} , create_time = #{createTime} , update_user_id = #{updateUserId} , update_user_name = #{updateUserName} , update_time = #{updateTime}  
+        WHERE 
+		id = #{id,jdbcType=BIGINT}
+		 
+  
+</update>
+    
+    <select id="select" resultMap="jenkinsJobResult">
+	 select 
+    	<include refid="Base_Column_List"/>
+	   
+	        from jenkins_job WHERE 1=1  
+	  
+			<if test="id != null ">
+			and   id = #{id,jdbcType=BIGINT}
+			</if>
+			<if test="jobName != null and  jobName != ''" >
+				and   job_name like concat('%', #{jobName,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="gitUrl != null and  gitUrl != ''" >
+				and   GIT_URL like concat('%', #{gitUrl,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="gitBranch != null and  gitBranch != ''" >
+				and   GIT_BRANCH like concat('%', #{gitBranch,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="gitCredit != null and  gitCredit != ''" >
+				and   GIT_CREDIT like concat('%', #{gitCredit,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="isUseGitTag != null ">
+			and   IS_USE_GIT_TAG = #{isUseGitTag,jdbcType=TINYINT}
+			</if>
+			<if test="isRunSonar != null ">
+			and   IS_RUN_SONAR = #{isRunSonar,jdbcType=TINYINT}
+			</if>
+			<if test="isRunSonarHtml != null ">
+			and   IS_RUN_SONAR_HTML = #{isRunSonarHtml,jdbcType=TINYINT}
+			</if>
+			<if test="isGenDockerImg != null ">
+			and   IS_GEN_DOCKER_IMG = #{isGenDockerImg,jdbcType=TINYINT}
+			</if>
+			<if test="isDeployNexus != null ">
+			and   IS_DEPLOY_NEXUS = #{isDeployNexus,jdbcType=TINYINT}
+			</if>
+			<if test="modelNames != null and  modelNames != ''" >
+				and   MODEL_NAMES like concat('%', #{modelNames,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="isSendEmail != null ">
+			and   IS_SEND_EMAIL = #{isSendEmail,jdbcType=TINYINT}
+			</if>
+			<if test="isMavenDebug != null ">
+			and   IS_MAVEN_DEBUG = #{isMavenDebug,jdbcType=TINYINT}
+			</if>
+			<if test="createUserId != null ">
+			and   create_user_id = #{createUserId,jdbcType=BIGINT}
+			</if>
+			<if test="createUserName != null and  createUserName != ''" >
+				and   create_user_name like concat('%', #{createUserName,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="createTime != null ">
+			and   create_time = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateUserId != null ">
+			and   update_user_id = #{updateUserId,jdbcType=BIGINT}
+			</if>
+			<if test="updateUserName != null and  updateUserName != ''" >
+				and   update_user_name like concat('%', #{updateUserName,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="updateTime != null ">
+			and   update_time = #{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		
+		<if test="sortName!= null and  sortName != ''" >
+            order by ${sortName}  ${sortOrder}
+        </if>
+    </select>
+      
+<select id="selectByExample" resultMap="jenkinsJobResult" >
+	 select 
+		<include refid="Base_Column_List"/>
+   	       	   from jenkins_job WHERE 1=1  
+	  
+			<if test="id != null ">
+			and   id = #{id,jdbcType=BIGINT}
+			</if>
+			<if test="jobName != null and  jobName != ''" >
+				and   job_name like concat('%', #{jobName,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="gitUrl != null and  gitUrl != ''" >
+				and   GIT_URL like concat('%', #{gitUrl,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="gitBranch != null and  gitBranch != ''" >
+				and   GIT_BRANCH like concat('%', #{gitBranch,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="gitCredit != null and  gitCredit != ''" >
+				and   GIT_CREDIT like concat('%', #{gitCredit,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="isUseGitTag != null ">
+			and   IS_USE_GIT_TAG = #{isUseGitTag,jdbcType=TINYINT}
+			</if>
+			<if test="isRunSonar != null ">
+			and   IS_RUN_SONAR = #{isRunSonar,jdbcType=TINYINT}
+			</if>
+			<if test="isRunSonarHtml != null ">
+			and   IS_RUN_SONAR_HTML = #{isRunSonarHtml,jdbcType=TINYINT}
+			</if>
+			<if test="isGenDockerImg != null ">
+			and   IS_GEN_DOCKER_IMG = #{isGenDockerImg,jdbcType=TINYINT}
+			</if>
+			<if test="isDeployNexus != null ">
+			and   IS_DEPLOY_NEXUS = #{isDeployNexus,jdbcType=TINYINT}
+			</if>
+			<if test="modelNames != null and  modelNames != ''" >
+				and   MODEL_NAMES like concat('%', #{modelNames,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="isSendEmail != null ">
+			and   IS_SEND_EMAIL = #{isSendEmail,jdbcType=TINYINT}
+			</if>
+			<if test="isMavenDebug != null ">
+			and   IS_MAVEN_DEBUG = #{isMavenDebug,jdbcType=TINYINT}
+			</if>
+			<if test="createUserId != null ">
+			and   create_user_id = #{createUserId,jdbcType=BIGINT}
+			</if>
+			<if test="createUserName != null and  createUserName != ''" >
+				and   create_user_name like concat('%', #{createUserName,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="createTime != null ">
+			and   create_time = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateUserId != null ">
+			and   update_user_id = #{updateUserId,jdbcType=BIGINT}
+			</if>
+			<if test="updateUserName != null and  updateUserName != ''" >
+				and   update_user_name like concat('%', #{updateUserName,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="updateTime != null ">
+			and   update_time = #{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		
+		<if test="sortName!= null and  sortName != ''" >
+            order by ${sortName}  ${sortOrder}
+        </if>
+					
+  </select>
+
+<select id="selectByPageExample" resultType="java.util.HashMap" >
+	 select 
+		<include refid="Base_Column_List"/>
+   	       	   from jenkins_job WHERE 1=1  
+	  
+			<if test="id != null ">
+			and   id = #{id,jdbcType=BIGINT}
+			</if>
+			<if test="jobName != null and  jobName != ''" >
+				and   job_name like concat('%', #{jobName,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="gitUrl != null and  gitUrl != ''" >
+				and   GIT_URL like concat('%', #{gitUrl,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="gitBranch != null and  gitBranch != ''" >
+				and   GIT_BRANCH like concat('%', #{gitBranch,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="gitCredit != null and  gitCredit != ''" >
+				and   GIT_CREDIT like concat('%', #{gitCredit,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="isUseGitTag != null ">
+			and   IS_USE_GIT_TAG = #{isUseGitTag,jdbcType=TINYINT}
+			</if>
+			<if test="isRunSonar != null ">
+			and   IS_RUN_SONAR = #{isRunSonar,jdbcType=TINYINT}
+			</if>
+			<if test="isRunSonarHtml != null ">
+			and   IS_RUN_SONAR_HTML = #{isRunSonarHtml,jdbcType=TINYINT}
+			</if>
+			<if test="isGenDockerImg != null ">
+			and   IS_GEN_DOCKER_IMG = #{isGenDockerImg,jdbcType=TINYINT}
+			</if>
+			<if test="isDeployNexus != null ">
+			and   IS_DEPLOY_NEXUS = #{isDeployNexus,jdbcType=TINYINT}
+			</if>
+			<if test="modelNames != null and  modelNames != ''" >
+				and   MODEL_NAMES like concat('%', #{modelNames,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="isSendEmail != null ">
+			and   IS_SEND_EMAIL = #{isSendEmail,jdbcType=TINYINT}
+			</if>
+			<if test="isMavenDebug != null ">
+			and   IS_MAVEN_DEBUG = #{isMavenDebug,jdbcType=TINYINT}
+			</if>
+			<if test="createUserId != null ">
+			and   create_user_id = #{createUserId,jdbcType=BIGINT}
+			</if>
+			<if test="createUserName != null and  createUserName != ''" >
+				and   create_user_name like concat('%', #{createUserName,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="createTime != null ">
+			and   create_time = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateUserId != null ">
+			and   update_user_id = #{updateUserId,jdbcType=BIGINT}
+			</if>
+			<if test="updateUserName != null and  updateUserName != ''" >
+				and   update_user_name like concat('%', #{updateUserName,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="updateTime != null ">
+			and   update_time = #{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		
+		<if test="sortName!= null and  sortName != ''" >
+			order by ${sortName}  ${sortOrder}
+		</if>
+			
+  </select>
+
+</mapper>

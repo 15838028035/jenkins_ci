@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>jenkins任务信息新增、编辑</title>
+   <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--css样式-->
+    <link href="scripts/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="scripts/bootstrap-table/bootstrap-table.css" rel="stylesheet">
+    <!--js-->
+
+    <script src="scripts/jquery/jquery-3.2.0.min.js"></script>
+    <script src="scripts/bootstrap/js/bootstrap.js"></script>
+
+    <script src="scripts/bootbox/bootbox.min.js"></script>
+
+    <script src="scripts/bootstrap-datetimepicker/js/moment.js"></script>
+    <script src="scripts/bootstrap-datetimepicker/js/moment_zh-CN.js"></script>
+    <link href="scripts/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <script src="scripts/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="scripts/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+    <link href="scripts/bootstrapvalidator/css/bootstrapValidator.css" rel="stylesheet">
+    <script src="scripts/bootstrapvalidator/js/bootstrapValidator.js"></script>
+    <script src="scripts/bootstrapvalidator/js/language/zh_CN.js"></script>
+
+    <link href="scripts/bootstrap-fileinput/css/fileinput.css" rel="stylesheet">
+    <script src="scripts/bootstrap-fileinput/js/fileinput.js"></script>
+
+    <script src="scripts/jquery.cookie.js"></script>
+    <script src="scripts/common.js"></script>
+	
+</head>
+<body>
+<div class="container">
+	<form  class="form-horizontal" method="post" name="jenkinsJobForm" id="jenkinsJobForm">
+	<input type="hidden" name="id" id="id" />
+	<input type="hidden" name="operate" id="operate"  />
+           
+      		<div class="form-group">
+			 <label for="jobName">job名称</label>
+		 	     <input class="form-control" type="text"  name="jobName" id="jobName"  />
+		 	</div>
+      		<div class="form-group">
+			 <label for="gitUrl">git url地址</label>
+		 	     <input class="form-control" type="text"  name="gitUrl" id="gitUrl"  />
+		 	</div>
+      		<div class="form-group">
+			 <label for="gitBranch">分支名称</label>
+		 	     <input class="form-control" type="text"  name="gitBranch" id="gitBranch"  />
+		 	</div>
+      		<div class="form-group">
+			 <label for="gitCredit">jenkins凭据参数</label>
+		 	     <input class="form-control" type="text"  name="gitCredit" id="gitCredit"  />
+		 	</div>
+      		<div class="form-group">
+			 <label for="isUseGitTag">是否使用git tag</label>
+		 	     <input class="form-control" type="text"  name="isUseGitTag" id="isUseGitTag"  />
+		 	</div>
+      		<div class="form-group">
+			 <label for="isRunSonar">是否执行sonar扫描</label>
+		 	     <input class="form-control" type="text"  name="isRunSonar" id="isRunSonar"  />
+		 	</div>
+      		<div class="form-group">
+			 <label for="isRunSonarHtml">是否执行sonar html扫描</label>
+		 	     <input class="form-control" type="text"  name="isRunSonarHtml" id="isRunSonarHtml"  />
+		 	</div>
+      		<div class="form-group">
+			 <label for="isGenDockerImg">是否执行docker镜像</label>
+		 	     <input class="form-control" type="text"  name="isGenDockerImg" id="isGenDockerImg"  />
+		 	</div>
+      		<div class="form-group">
+			 <label for="isDeployNexus">是否发布到nexus中</label>
+		 	     <input class="form-control" type="text"  name="isDeployNexus" id="isDeployNexus"  />
+		 	</div>
+      		<div class="form-group">
+			 <label for="modelNames">镜像模块名称</label>
+		 	     <input class="form-control" type="text"  name="modelNames" id="modelNames"  />
+		 	</div>
+      		<div class="form-group">
+			 <label for="isSendEmail">是否发送邮件通知</label>
+		 	     <input class="form-control" type="text"  name="isSendEmail" id="isSendEmail"  />
+		 	</div>
+      		<div class="form-group">
+			 <label for="isMavenDebug">是否启用maven调试，默认值false</label>
+		 	     <input class="form-control" type="text"  name="isMavenDebug" id="isMavenDebug"  />
+		 	</div>
+       
+ 	  <div class="form-group"> 
+                 <button id="save"  class="btn btn-default">保存</button>
+                <button type="button" id="backToHomeButton"  class="btn btn-default">返回</button>
+        </div>	
+       
+    	</form>
+</div>
+<script>
+		 //拦截器判断
+     var token = $.cookie('bearcktkaeskey');
+    if (token == ""||token==undefined) {
+        location.href = ctx + '/login.html';
+    }
+
+    //加载
+    var loadInfo = {
+        init: function () {
+            this.load_Info();
+        },
+        load_Info:function(){
+            //截取参数
+            $.getUrlParam = function (name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]);
+                return null;
+            }
+
+            var id = $.getUrlParam('id');
+            var operate = $.getUrlParam('operate');
+            
+            if(id != null){
+                $("#id").val(id);
+                $.ajax({
+                    url: ctx+"/api/JenkinsJob/"+id+"?TOKEN="+token,
+                    type: "get",
+                    dataType: "json",
+                    success: function(data){
+                            $("#jobName").val(data.jobName);
+                            $("#gitUrl").val(data.gitUrl);
+                            $("#gitBranch").val(data.gitBranch);
+                            $("#gitCredit").val(data.gitCredit);
+                            $("#isUseGitTag").val(data.isUseGitTag);
+                            $("#isRunSonar").val(data.isRunSonar);
+                            $("#isRunSonarHtml").val(data.isRunSonarHtml);
+                            $("#isGenDockerImg").val(data.isGenDockerImg);
+                            $("#isDeployNexus").val(data.isDeployNexus);
+                            $("#modelNames").val(data.modelNames);
+                            $("#isSendEmail").val(data.isSendEmail);
+                            $("#isMavenDebug").val(data.isMavenDebug);
+                    },
+                    error: function(data){
+                        bootbox.alert("异常");
+                        return false;
+                    }
+                });
+            }
+        }
+    };//end loadInfo
+    
+    //校验
+     var bootstrapValidator = {
+        init: function () {
+            this.doBootstrapValidator();
+        },
+        doBootstrapValidator:function(){
+              $("#jenkinsJobForm").bootstrapValidator({
+            
+            fields: {
+                 "jobName": {
+                    message: 'job名称不能为空',
+                    validators: {  
+                                     notEmpty: {  
+                                        message: 'job名称不能为空'  
+                                    } 
+                                    
+                                }  
+                
+               },
+                 "gitUrl": {
+                    message: 'git url地址不能为空',
+                    validators: {  
+                                     notEmpty: {  
+                                        message: 'git url地址不能为空'  
+                                    } 
+                                    
+                                }  
+                
+               },
+                 "gitBranch": {
+                    message: '分支名称不能为空',
+                    validators: {  
+                                     notEmpty: {  
+                                        message: '分支名称不能为空'  
+                                    } 
+                                    
+                                }  
+                
+               },
+                 "gitCredit": {
+                    message: 'jenkins凭据参数不能为空',
+                    validators: {  
+                                     notEmpty: {  
+                                        message: 'jenkins凭据参数不能为空'  
+                                    } 
+                                    
+                                }  
+                
+               },
+                 "isUseGitTag": {
+                    message: '是否使用git tag不能为空',
+                    validators: {  
+                                     notEmpty: {  
+                                        message: '是否使用git tag不能为空'  
+                                    } 
+                                    
+                                }  
+                
+               },
+                 "isRunSonar": {
+                    message: '是否执行sonar扫描不能为空',
+                    validators: {  
+                                     notEmpty: {  
+                                        message: '是否执行sonar扫描不能为空'  
+                                    } 
+                                    
+                                }  
+                
+               },
+                 "isRunSonarHtml": {
+                    message: '是否执行sonar html扫描不能为空',
+                    validators: {  
+                                     notEmpty: {  
+                                        message: '是否执行sonar html扫描不能为空'  
+                                    } 
+                                    
+                                }  
+                
+               },
+                 "isGenDockerImg": {
+                    message: '是否执行docker镜像不能为空',
+                    validators: {  
+                                     notEmpty: {  
+                                        message: '是否执行docker镜像不能为空'  
+                                    } 
+                                    
+                                }  
+                
+               },
+                 "isDeployNexus": {
+                    message: '是否发布到nexus中不能为空',
+                    validators: {  
+                                     notEmpty: {  
+                                        message: '是否发布到nexus中不能为空'  
+                                    } 
+                                    
+                                }  
+                
+               },
+                 "modelNames": {
+                    message: '镜像模块名称不能为空',
+                    validators: {  
+                                     notEmpty: {  
+                                        message: '镜像模块名称不能为空'  
+                                    } 
+                                    
+                                }  
+                
+               },
+                 "isSendEmail": {
+                    message: '是否发送邮件通知不能为空',
+                    validators: {  
+                                     notEmpty: {  
+                                        message: '是否发送邮件通知不能为空'  
+                                    } 
+                                    
+                                }  
+                
+               },
+                 "isMavenDebug": {
+                    message: '是否启用maven调试，默认值false不能为空',
+                    validators: {  
+                                     notEmpty: {  
+                                        message: '是否启用maven调试，默认值false不能为空'  
+                                    } 
+                                    
+                                }  
+                
+               },
+            }
+        }
+        );
+        
+        }
+    };//end bootstrapValidator
+    
+    //保存或更新
+    var saveOrUpdate = {
+        init: function () {
+            this.doSaveOrUpdate();
+        },
+        doSaveOrUpdate:function(){
+        
+          //截取参数
+            $.getUrlParam = function (name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]);
+                return null;
+            }
+
+            var id = $.getUrlParam('id');
+            
+         $("#save").click(function () {//非submit按钮点击后进行验证，如果是submit则无需此句直接验证
+                $("#jenkinsJobForm").bootstrapValidator('validate');//提交验证
+                if ($("#jenkinsJobForm").data('bootstrapValidator').isValid()) {//获取验证结果，如果成功，执行下面代码
+                    var type = "post";
+                    var url = ctx + "/api/JenkinsJob?TOKEN="+token;
+                    var operate = $.getUrlParam('operate');
+                    if (operate == "edit"){
+                        type = "put";
+                        url = ctx + "/api/JenkinsJob/"+id+"?TOKEN="+token;
+                    }else {
+                        $("#id").val(0);
+                    }
+                    
+                    var data = $('#jenkinsJobForm').serialize();
+                    $.ajax({
+                        url: url,
+                        data:data,
+                        type: type,
+                        dataType: "json",
+                        success: function (data) {
+                            bootbox.alert(data.respMsg);
+                        },
+                        error: function (data) {
+                            bootbox.alert("异常");
+                            return false;
+                        }
+                    });
+                }
+
+            });
+        
+        }
+    };//end saveOrUpdate
+    
+    //返回
+     var backToHome = {
+        init: function () {
+            this.doBackToHome();
+        },
+        doBackToHome:function(){
+            $("#backToHomeButton").click(function () {
+                window.history.go(-1);
+            });
+        }
+    };//end backToHomeButton
+        
+    //初始化加载    
+    $(function () {
+        loadInfo.init();
+        bootstrapValidator.init();
+        saveOrUpdate.init();
+        backToHome.init();
+    });
+    
+</script>
+</body>
+</html>

@@ -4,20 +4,20 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.offbytwo.jenkins.JenkinsServer;
-import com.thinkit.cloud.jenkinsci.bean.BuildInfoVo;
-import com.thinkit.cloud.jenkinsci.config.MyProps;
+import com.thinkit.cloud.jenkinsci.bean.JenkinsJob;
+import com.thinkit.cloud.jenkinsci.service.JenkinsJobService;
 import com.thinkit.cloud.jenkinsci.service.JenkinsService;
 import com.thinkit.cloud.jenkinsci.util.FileHelper;
 import com.thinkit.cloud.jenkinsci.util.ObjectToXmlUtil;
@@ -34,30 +34,16 @@ public class JenkinsController {
     @Autowired
     JenkinsService jenkinsService;
     
-    @Autowired
-    private MyProps myProps;
+	@Autowired
+	private JenkinsJobService jenkinsJobService;
     
-    /**
+  /*  *//**
      * 列表
-     */
-    @ResponseBody
-    @RequestMapping("/page")
-    public Map list() throws Exception {
-    	List<BuildInfoVo>  jobs = myProps.getBuildjob();
-        Map<String,Object> map = new HashMap<String,Object>();
-        map.put("total", jobs.size());
-        map.put("rows", jobs);
-        
-        return map;
-    }
-    
-    /**
-     * 列表
-     */
+     *//*
     @ResponseBody
     @RequestMapping("/job/generateAllJob")
     public Map generateAllJob() throws Exception {
-    	List<BuildInfoVo>  jobs = myProps.getBuildjob();
+    	List<JenkinsJob>  jobs = myProps.getBuildjob();
     	
     	 Map<String,Object> retMap = new HashMap<String,Object>();
     	 
@@ -78,6 +64,38 @@ public class JenkinsController {
                   exceptionMsg.append("创建异常,job名称:" + buildInfoVo.getJOB_NAME() +"\r\n");
               }
          }
+        
+         
+        return retMap;
+    }*/
+    
+    /**
+     * 列表
+     */
+    @ResponseBody
+    @PostMapping("/job/generateJob/{id}" )
+    public Map generateJob(@PathVariable("id") java.lang.Long id ) throws Exception {
+    	Map<String,Object> retMap =new HashMap<>();
+		JenkinsJob jenkinsJob =jenkinsJobService.selectByPrimaryKey(id);
+		if(jenkinsJob== null) {
+			jenkinsJob = new JenkinsJob();
+		}
+    	 
+    	 retMap.put("respCode", "1");
+    	 retMap.put("respMsg", "创建job成功");
+         
+         File filePath = FileHelper.getFile("classpath:templates");
+         StringBuilder  exceptionMsg = new StringBuilder();
+        	 try {
+        	  	 
+        		String job_name = jenkinsJob.getJobName();
+      			String result = ObjectToXmlUtil.buil(filePath.getAbsolutePath(),jenkinsJob,"config.xml");
+                  jenkinsServer.createJob(job_name,result, false);
+              } catch (Exception e) {
+                  e.printStackTrace();
+                  retMap.put("respCode", "0");
+                  exceptionMsg.append("创建异常,job名称:" + jenkinsJob.getJobName() +"\r\n");
+              }
         
          
         return retMap;

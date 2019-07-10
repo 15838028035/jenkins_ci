@@ -5,7 +5,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.thinkit.cloud.jenkinsci.bean.BuildInfoVo;
+import com.thinkit.cloud.jenkinsci.bean.JenkinsJob;
 
 import freemarker.core.Environment;
 import freemarker.template.Configuration;
@@ -23,7 +23,7 @@ public class ObjectToXmlUtil  {
      * @see [类、类#方法、类#成员]
      */
     @SuppressWarnings("unchecked")
-    public static String buil(String path,BuildInfoVo buildInfoVo, String fileName)
+    public static String buil(String path,JenkinsJob buildInfoVo, String fileName)
     {
         StringWriter out = new StringWriter();
         try
