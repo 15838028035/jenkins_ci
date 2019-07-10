@@ -149,9 +149,9 @@ builds:
    buildjob[8]:
       JOB_NAME: "common-code-generate"
       GIT_URL: "https://github.com/15838028035/common-code-generate"
-      GIT_BRANCH: "1.0.3-BETA"
+      GIT_BRANCH: "master"
       GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
-      IS_USE_GIT_TAG: true
+      IS_USE_GIT_TAG: false
       IS_RUN_SONAR: true
       IS_RUN_SONAR_HTML: false
       IS_GEN_DOCKER_IMG: false
@@ -164,9 +164,9 @@ builds:
    buildjob[9]:
       JOB_NAME: "common-code-generate-web"
       GIT_URL: "https://github.com/15838028035/common-code-generate-web"
-      GIT_BRANCH: "1.0.3-BETA"
+      GIT_BRANCH: "master"
       GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
-      IS_USE_GIT_TAG: true
+      IS_USE_GIT_TAG: false
       IS_RUN_SONAR: true
       IS_RUN_SONAR_HTML: false
       IS_GEN_DOCKER_IMG: false
@@ -178,9 +178,9 @@ builds:
    buildjob[10]:
       JOB_NAME: "upm"
       GIT_URL: "https://github.com/15838028035/upm"
-      GIT_BRANCH: "1.0.3-BETA"
+      GIT_BRANCH: "master"
       GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
-      IS_USE_GIT_TAG: true
+      IS_USE_GIT_TAG: false
       IS_RUN_SONAR: true
       IS_RUN_SONAR_HTML: false
       IS_GEN_DOCKER_IMG: false
