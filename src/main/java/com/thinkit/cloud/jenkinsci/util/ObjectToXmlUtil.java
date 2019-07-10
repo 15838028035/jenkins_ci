@@ -112,9 +112,9 @@ public class ObjectToXmlUtil  {
 		map.put("GIT_URL", "github.com/aa.git");
 		map.put("GIT_BRANCH", "master");
 		map.put("GIT_CREDIT", "aaa");
-		map.put("IS_RUN_SONAR", true);
-		map.put("IS_MAVEN_DEBUG", false);
-		map.put("IS_RUN_SONAR_HTML", false);
+		map.put("IS_RUN_SONAR", 1);
+		map.put("IS_MAVEN_DEBUG", 0);
+		map.put("IS_RUN_SONAR_HTML", 1);
 		
 		String result = buil(filePath.getAbsolutePath(),map,"config.xml");
 		

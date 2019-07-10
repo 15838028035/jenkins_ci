@@ -222,7 +222,7 @@
                 var ids = $.map($tableList.bootstrapTable('getSelections'), function (row) {
              return row.id;
                 });
-            if(ids === ''|| ids==null){
+            if(ids == ''|| ids==null){
                 bootbox.alert('请选择要操作的记录');
                 return;
             }
@@ -246,7 +246,7 @@
                  return row.id;
              });
              
-            if(ids === ""){
+            if(ids == ""){
                 bootbox.alert('请选择要操作的记录');
                 return;
             }
@@ -278,26 +278,28 @@
    
     var addjobAdd = {
             init: function () {
-                this.btn_add();
+                this.btn_generate();
             },
-            btn_add:function(){
-                
-                     var ids = $.map($tableList.bootstrapTable('getSelections'), function (row) {
-                  return row.id;
-                     });
-                 if(ids === ''|| ids==null){
-                     bootbox.alert('请选择要操作的记录');
-                     return;
-                 }
-                 
-                 if(ids.length>1){
-                     bootbox.alert('请选择一条操作的记录');
-                     return;
-                 }
-                 
+            btn_generate:function(){
                   $("#btn_generate").click(function(){
+                	  
+
+                      var ids = $.map($tableList.bootstrapTable('getSelections'), function (row) {
+                   return row.id;
+                      });
+                      
+                  if(ids == ''|| ids==null){
+                      bootbox.alert('请选择要操作的记录');
+                      return;
+                  }
+                  
+                  if(ids.length>1){
+                      bootbox.alert('请选择一条操作的记录');
+                      return;
+                  }
+                  
                       $.ajax({
-                          url: "/job/generateJob/"+ids[0],
+                          url: "/job/generateJob/"+ids,
                           data: {},
                           type: "POST",
                           dataType: "json",
