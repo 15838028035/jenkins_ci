@@ -39,6 +39,7 @@ builds:
       GIT_URL: "https://github.com/15838028035/microservice-common-util.git"
       GIT_BRANCH: "master"
       GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
+      IS_USE_GIT_TAG: false
       IS_RUN_SONAR: true
       IS_RUN_SONAR_HTML: false
       IS_GEN_DOCKER_IMG: false
@@ -46,10 +47,153 @@ builds:
       MODEL_NAMES: "microservice-common-util"
       IS_SEND_EMAIL: true
       IS_MAVEN_DEBUG: false
+      
    buildjob[1]:
+      JOB_NAME: "microservice-common-util-0.0.7"
+      GIT_URL: "https://github.com/15838028035/microservice-common-util.git"
+      GIT_BRANCH: "0.0.7"
+      GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
+      IS_USE_GIT_TAG: true
+      IS_RUN_SONAR: true
+      IS_RUN_SONAR_HTML: false
+      IS_GEN_DOCKER_IMG: false
+      IS_DEPLOY_NEXUS: true
+      MODEL_NAMES: "microservice-common-util"
+      IS_SEND_EMAIL: true
+      IS_MAVEN_DEBUG: false
+      
+   buildjob[2]:
+      JOB_NAME: "microservice-common-util-0.0.8"
+      GIT_URL: "https://github.com/15838028035/microservice-common-util.git"
+      GIT_BRANCH: "0.0.8"
+      GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
+      IS_USE_GIT_TAG: true
+      IS_RUN_SONAR: true
+      IS_RUN_SONAR_HTML: false
+      IS_GEN_DOCKER_IMG: false
+      IS_DEPLOY_NEXUS: true
+      MODEL_NAMES: "microservice-common-util"
+      IS_SEND_EMAIL: true
+      IS_MAVEN_DEBUG: false
+      
+   buildjob[3]:
+      JOB_NAME: "microservice-common-util-0.0.9"
+      GIT_URL: "https://github.com/15838028035/microservice-common-util.git"
+      GIT_BRANCH: "0.0.9"
+      GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
+      IS_USE_GIT_TAG: true
+      IS_RUN_SONAR: true
+      IS_RUN_SONAR_HTML: false
+      IS_GEN_DOCKER_IMG: false
+      IS_DEPLOY_NEXUS: true
+      MODEL_NAMES: "microservice-common-util"
+      IS_SEND_EMAIL: true
+      IS_MAVEN_DEBUG: false
+      
+   buildjob[4]:
+      JOB_NAME: "microservice-common-util-1.0.0"
+      GIT_URL: "https://github.com/15838028035/microservice-common-util.git"
+      GIT_BRANCH: "V1.0.0"
+      GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
+      IS_USE_GIT_TAG: true
+      IS_RUN_SONAR: true
+      IS_RUN_SONAR_HTML: false
+      IS_GEN_DOCKER_IMG: false
+      IS_DEPLOY_NEXUS: true
+      MODEL_NAMES: "microservice-common-util"
+      IS_SEND_EMAIL: true
+      IS_MAVEN_DEBUG: false
+      
+   buildjob[5]:
+      JOB_NAME: "microservice-common-util-1.0.1"
+      GIT_URL: "https://github.com/15838028035/microservice-common-util.git"
+      GIT_BRANCH: "1.0.1"
+      GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
+      IS_USE_GIT_TAG: true
+      IS_RUN_SONAR: true
+      IS_RUN_SONAR_HTML: false
+      IS_GEN_DOCKER_IMG: false
+      IS_DEPLOY_NEXUS: true
+      MODEL_NAMES: "microservice-common-util"
+      IS_SEND_EMAIL: true
+      IS_MAVEN_DEBUG: false
+      
+   buildjob[6]:
+      JOB_NAME: "microservice-common-util-1.0.2"
+      GIT_URL: "https://github.com/15838028035/microservice-common-util.git"
+      GIT_BRANCH: "1.0.2"
+      GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
+      IS_USE_GIT_TAG: true
+      IS_RUN_SONAR: true
+      IS_RUN_SONAR_HTML: false
+      IS_GEN_DOCKER_IMG: false
+      IS_DEPLOY_NEXUS: true
+      MODEL_NAMES: "microservice-common-util"
+      IS_SEND_EMAIL: true
+      IS_MAVEN_DEBUG: false
+      
+   buildjob[7]:
+      JOB_NAME: "microservice-common-util-1.0.3-BETA"
+      GIT_URL: "https://github.com/15838028035/microservice-common-util.git"
+      GIT_BRANCH: "1.0.3-BETA"
+      GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
+      IS_USE_GIT_TAG: true
+      IS_RUN_SONAR: true
+      IS_RUN_SONAR_HTML: false
+      IS_GEN_DOCKER_IMG: false
+      IS_DEPLOY_NEXUS: true
+      MODEL_NAMES: "microservice-common-util"
+      IS_SEND_EMAIL: true
+      IS_MAVEN_DEBUG: false
+      
+   buildjob[8]:
+      JOB_NAME: "common-code-generate"
+      GIT_URL: "https://github.com/15838028035/common-code-generate"
+      GIT_BRANCH: "1.0.3-BETA"
+      GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
+      IS_USE_GIT_TAG: true
+      IS_RUN_SONAR: true
+      IS_RUN_SONAR_HTML: false
+      IS_GEN_DOCKER_IMG: false
+      IS_DEPLOY_NEXUS: true
+      MODEL_NAMES: "common-code-generate"
+      IS_SEND_EMAIL: true
+      IS_MAVEN_DEBUG: false
+      
+      
+   buildjob[9]:
+      JOB_NAME: "common-code-generate-web"
+      GIT_URL: "https://github.com/15838028035/common-code-generate-web"
+      GIT_BRANCH: "1.0.3-BETA"
+      GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
+      IS_USE_GIT_TAG: true
+      IS_RUN_SONAR: true
+      IS_RUN_SONAR_HTML: false
+      IS_GEN_DOCKER_IMG: false
+      IS_DEPLOY_NEXUS: true
+      MODEL_NAMES: "common-code-generate-web"
+      IS_SEND_EMAIL: true
+      IS_MAVEN_DEBUG: false
+      
+   buildjob[10]:
+      JOB_NAME: "upm"
+      GIT_URL: "https://github.com/15838028035/upm"
+      GIT_BRANCH: "1.0.3-BETA"
+      GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
+      IS_USE_GIT_TAG: true
+      IS_RUN_SONAR: true
+      IS_RUN_SONAR_HTML: false
+      IS_GEN_DOCKER_IMG: false
+      IS_DEPLOY_NEXUS: true
+      MODEL_NAMES: "upm"
+      IS_SEND_EMAIL: true
+      IS_MAVEN_DEBUG: false
+      
+   buildjob[11]:
       JOB_NAME: "Audio_Model-job"
       GIT_URL: "http://192.168.96.89:3000/Model_Training/Audio_Model.git"
       GIT_BRANCH: "master"
+      IS_USE_GIT_TAG: false
       GIT_CREDIT: "47e7e050-aa0c-42cd-a1af-500a3f07d5c1"
       IS_RUN_SONAR: true
       IS_RUN_SONAR_HTML: false

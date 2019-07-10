@@ -25,6 +25,10 @@ public class BuildInfoVo {
 	 * jenkins凭据参数
 	 */
 	private String GIT_CREDIT;
+	/**
+	 * 是否使用git tag
+	 */
+	private Boolean IS_USE_GIT_TAG;
 	
 	/**
 	 * 是否执行sonar扫描
@@ -148,6 +152,14 @@ public class BuildInfoVo {
 
 	public void setIS_MAVEN_DEBUG(Boolean iS_MAVEN_DEBUG) {
 		IS_MAVEN_DEBUG = iS_MAVEN_DEBUG;
+	}
+
+	public Boolean getIS_USE_GIT_TAG() {
+		return IS_USE_GIT_TAG;
+	}
+
+	public void setIS_USE_GIT_TAG(Boolean iS_USE_GIT_TAG) {
+		IS_USE_GIT_TAG = iS_USE_GIT_TAG;
 	}
 	
 }
