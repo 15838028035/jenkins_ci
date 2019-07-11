@@ -23,36 +23,56 @@
         <hudson.model.StringParameterDefinition>
           <name>GIT_URL</name>
           <description>仓库地址</description>
-          <defaultValue>${GIT_URL}</defaultValue>
+          <defaultValue>${gitUrl}</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>GIT_BRANCH</name>
           <description>分支名称</description>
-          <defaultValue>${GIT_BRANCH}</defaultValue>
+          <defaultValue>${gitBranch}</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>GIT_CREDIT</name>
           <description>jenkins凭据</description>
-          <defaultValue>${GIT_CREDIT}</defaultValue>
+          <defaultValue>${gitCredit}</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.BooleanParameterDefinition>
           <name>IS_RUN_SONAR</name>
           <description>是否执行sonar构建</description>
-          <defaultValue>true</defaultValue>
+          <defaultValue>${isRunSonarBoolean?c}</defaultValue>
         </hudson.model.BooleanParameterDefinition>
         <hudson.model.BooleanParameterDefinition>
           <name>IS_MAVEN_DEBUG</name>
           <description>是否启用maven调试，默认值false</description>
-          <defaultValue>true</defaultValue>
+          <defaultValue>${isMavenDebugBoolean?c}</defaultValue>
         </hudson.model.BooleanParameterDefinition>
         <hudson.model.BooleanParameterDefinition>
           <name>IS_RUN_SONAR_HTML</name>
           <description>是否执行sonar html扫描</description>
-          <defaultValue>false</defaultValue>
+          <defaultValue>${isRunSonarHtmlBoolean?c}</defaultValue>
         </hudson.model.BooleanParameterDefinition>
+        
+         <hudson.model.BooleanParameterDefinition>
+          <name>IS_USE_GIT_TAG</name>
+          <description>是否使用git tag </description>
+          <defaultValue>${isUseGitTagBoolean?c}</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        
+         <hudson.model.BooleanParameterDefinition>
+          <name>IS_SEND_EMAIL</name>
+          <description>是否发送邮件通知 </description>
+          <defaultValue>${isSendEmailBoolean?c}</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        
+         <hudson.model.BooleanParameterDefinition>
+          <name>IS_DEPLOY_NEXUS</name>
+          <description>是否发布到nexus中 </description>
+          <defaultValue>${isDeployNexusBoolean?c}</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        
+        
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
     <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>

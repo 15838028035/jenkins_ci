@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.offbytwo.jenkins.JenkinsServer;
+import com.offbytwo.jenkins.model.Job;
 import com.thinkit.cloud.jenkinsci.bean.JenkinsJob;
 import com.thinkit.cloud.jenkinsci.service.JenkinsJobService;
 import com.thinkit.cloud.jenkinsci.service.JenkinsService;
@@ -23,11 +27,14 @@ import com.thinkit.cloud.jenkinsci.util.FileHelper;
 import com.thinkit.cloud.jenkinsci.util.ObjectToXmlUtil;
 import com.thinkit.cloud.jenkinsci.util.ResultMessage;
 import com.thinkit.cloud.jenkinsci.vo.JobInformationVO;
+import com.zhongkexinli.micro.serv.common.pagination.Query;
 
 @Controller
 @RequestMapping("/")
 public class JenkinsController {
     
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	 JenkinsServer jenkinsServer;
 	 
@@ -37,13 +44,16 @@ public class JenkinsController {
 	@Autowired
 	private JenkinsJobService jenkinsJobService;
     
-  /*  *//**
-     * 列表
-     *//*
+
+	/**
+	 * 同步所有job
+	 * @return
+	 * @throws Exception
+	 */
     @ResponseBody
-    @RequestMapping("/job/generateAllJob")
+    @PostMapping("/job/generateAllJob")
     public Map generateAllJob() throws Exception {
-    	List<JenkinsJob>  jobs = myProps.getBuildjob();
+    	List<JenkinsJob>  jobs = jenkinsJobService.selectByExample(new Query());
     	
     	 Map<String,Object> retMap = new HashMap<String,Object>();
     	 
@@ -52,25 +62,36 @@ public class JenkinsController {
          
          File filePath = FileHelper.getFile("classpath:templates");
          StringBuilder  exceptionMsg = new StringBuilder();
-         for(BuildInfoVo buildInfoVo: jobs) {
+         for(JenkinsJob jenkinsJob: jobs) {
         	 try {
         	  	 
-        		String job_name = buildInfoVo.getJOB_NAME();
-      			String result = ObjectToXmlUtil.buil(filePath.getAbsolutePath(),buildInfoVo,"config.xml");
-                  jenkinsServer.createJob(job_name,result, false);
-              } catch (Exception e) {
-                  e.printStackTrace();
-                  retMap.put("respCode", "0");
-                  exceptionMsg.append("创建异常,job名称:" + buildInfoVo.getJOB_NAME() +"\r\n");
-              }
+         		String job_name = jenkinsJob.getJobName();
+       			String result = ObjectToXmlUtil.buil(filePath.getAbsolutePath(),jenkinsJob,"config.xml");
+                 
+       			logger.info("job模板内容:{}", result);
+       			
+                   if (jenkinsServer.getJob(job_name) != null) {
+                  	 jenkinsServer.updateJob(job_name,result);
+                  	logger.info("更新任务{} 成功", job_name);
+                   }else {
+                 	  jenkinsServer.createJob(job_name,result, false);
+                 	  
+                 	  logger.info("创建任务{} 成功", job_name);
+                   }
+                   
+               } catch (Exception e) {
+                   e.printStackTrace();
+                   retMap.put("respCode", "0");
+                   exceptionMsg.append("创建异常,job名称:" + jenkinsJob.getJobName() +"\r\n");
+               }
          }
         
          
         return retMap;
-    }*/
+    }
     
     /**
-     * 列表
+     *同步job
      */
     @ResponseBody
     @PostMapping("/job/generateJob/{id}" )
@@ -90,13 +111,50 @@ public class JenkinsController {
         	  	 
         		String job_name = jenkinsJob.getJobName();
       			String result = ObjectToXmlUtil.buil(filePath.getAbsolutePath(),jenkinsJob,"config.xml");
-                  jenkinsServer.createJob(job_name,result, false);
+      			
+      			logger.info("job模板内容:{}", result);
+                
+                  
+                  if (jenkinsServer.getJob(job_name) != null) {
+                 	 jenkinsServer.updateJob(job_name,result);
+                 	logger.info("更新任务{} 成功", job_name);
+                  }else {
+                	  jenkinsServer.createJob(job_name,result, false);
+                	  
+                	  logger.info("创建任务{} 成功", job_name);
+                  }
+                  
               } catch (Exception e) {
                   e.printStackTrace();
                   retMap.put("respCode", "0");
                   exceptionMsg.append("创建异常,job名称:" + jenkinsJob.getJobName() +"\r\n");
               }
         
+         
+        return retMap;
+    }
+    
+    /**
+     *执行job
+     */
+    @ResponseBody
+    @PostMapping("/job/buildJob/{id}" )
+    public Map buildJob(@PathVariable("id") java.lang.Long id ) throws Exception {
+    	Map<String,Object> retMap =new HashMap<>();
+		JenkinsJob jenkinsJob =jenkinsJobService.selectByPrimaryKey(id);
+		if(jenkinsJob== null) {
+			jenkinsJob = new JenkinsJob();
+		}
+    	 
+    	 retMap.put("respCode", "1");
+    	 retMap.put("respMsg", "启动job成功");
+         
+	 try {
+         	 Job job = jenkinsServer.getJob(jenkinsJob.getJobName());
+             job.build();
+      } catch (Exception e) {
+          retMap.put("respCode", "0");
+      }
          
         return retMap;
     }

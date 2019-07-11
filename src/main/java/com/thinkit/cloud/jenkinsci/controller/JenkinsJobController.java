@@ -1,19 +1,14 @@
 package com.thinkit.cloud.jenkinsci.controller;
 
-import com.thinkit.cloud.jenkinsci.bean.JenkinsJob;
-import com.thinkit.cloud.jenkinsci.service.JenkinsJobService;
-
-
 import java.util.Date;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +19,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.offbytwo.jenkins.JenkinsServer;
+import com.thinkit.cloud.jenkinsci.bean.JenkinsJob;
+import com.thinkit.cloud.jenkinsci.service.JenkinsJobService;
+import com.thinkit.cloud.jenkinsci.service.JenkinsService;
 import com.zhongkexinli.micro.serv.common.bean.RestAPIResult2;
 import com.zhongkexinli.micro.serv.common.msg.LayUiTableResultResponse;
 import com.zhongkexinli.micro.serv.common.pagination.Query;
@@ -42,6 +41,14 @@ public class JenkinsJobController extends BaseController{
 	
 	@Autowired
 	private JenkinsJobService jenkinsJobService;
+	
+
+	@Autowired
+	 JenkinsServer jenkinsServer;
+	 
+    @Autowired
+    JenkinsService jenkinsService;
+    
 	
 	@ApiOperation(value = "分页列表")
 	@GetMapping(value = "/api/JenkinsJob")
@@ -104,7 +111,19 @@ public class JenkinsJobController extends BaseController{
 	@ApiOperation(value = "物理删除")
 	@DeleteMapping(value="/api/JenkinsJob/{id}")
 	public RestAPIResult2 delete(@PathVariable("id") java.lang.Long id ) {
+		JenkinsJob jenkinsJob =jenkinsJobService.selectByPrimaryKey(id);
+		if(jenkinsJob== null) {
+			jenkinsJob = new JenkinsJob();
+		}
+		
 		jenkinsJobService.deleteByPrimaryKey(id);
+		
+	  try {
+          jenkinsService.deleteJob(jenkinsJob.getJobName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		  
 		return new RestAPIResult2();
 	}
 

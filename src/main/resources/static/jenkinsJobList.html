@@ -74,7 +74,15 @@
             </button>
             
              <button id="btn_generate" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>job生成
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>job同步
+            </button>
+            
+             <button id="btn_generate_all" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>同步所有job
+            </button>
+            
+             <button id="btn_generate_build" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>构建job
             </button>
 	
         </div>
@@ -300,6 +308,55 @@
                   
                       $.ajax({
                           url: "/job/generateJob/"+ids,
+                          data: {},
+                          type: "POST",
+                          dataType: "json",
+                          async: false, 
+                          
+                          success: function (data) {
+                              bootbox.alert(data.respMsg);
+                          }
+                          
+                      });
+                      
+                  });
+                  
+                  //同步所有job
+                  $("#btn_generate_all").click(function(){
+                      $.ajax({
+                          url: "/job/generateAllJob",
+                          data: {},
+                          type: "POST",
+                          dataType: "json",
+                          async: false, 
+                          success: function (data) {
+                              bootbox.alert(data.respMsg);
+                          }
+                          
+                      });
+                      
+                  });
+                  
+                  //构建
+                   $("#btn_generate_build").click(function(){
+                      
+
+                      var ids = $.map($tableList.bootstrapTable('getSelections'), function (row) {
+                   return row.id;
+                      });
+                      
+                  if(ids == ''|| ids==null){
+                      bootbox.alert('请选择要操作的记录');
+                      return;
+                  }
+                  
+                  if(ids.length>1){
+                      bootbox.alert('请选择一条操作的记录');
+                      return;
+                  }
+                  
+                      $.ajax({
+                          url: "/job/buildJob/"+ids,
                           data: {},
                           type: "POST",
                           dataType: "json",

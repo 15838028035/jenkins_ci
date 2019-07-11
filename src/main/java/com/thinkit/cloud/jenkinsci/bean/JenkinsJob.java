@@ -189,12 +189,20 @@ public class JenkinsJob extends MyBaseEntity{
 		return this.isUseGitTag;
 	}
 	
+	public Boolean  getIsUseGitTagBoolean() {
+		return this.isUseGitTag == 1;
+	}
+	
 	public void setIsRunSonar(java.lang.Integer value) {
 		this.isRunSonar = value;
 	}
 	
 	public java.lang.Integer getIsRunSonar() {
 		return this.isRunSonar;
+	}
+	
+	public java.lang.Boolean getIsRunSonarBoolean() {
+		return this.isRunSonar == 1;
 	}
 	
 	public void setIsRunSonarHtml(java.lang.Integer value) {
@@ -205,6 +213,10 @@ public class JenkinsJob extends MyBaseEntity{
 		return this.isRunSonarHtml;
 	}
 	
+	public java.lang.Boolean getIsRunSonarHtmlBoolean() {
+		return this.isRunSonarHtml == 1;
+	}
+	
 	public void setIsGenDockerImg(java.lang.Integer value) {
 		this.isGenDockerImg = value;
 	}
@@ -213,12 +225,21 @@ public class JenkinsJob extends MyBaseEntity{
 		return this.isGenDockerImg;
 	}
 	
+	public java.lang.Boolean getIsGenDockerImgBoolean() {
+		return this.isGenDockerImg == 1;
+	}
+	
 	public void setIsDeployNexus(java.lang.Integer value) {
 		this.isDeployNexus = value;
 	}
 	
 	public java.lang.Integer getIsDeployNexus() {
 		return this.isDeployNexus;
+	}
+	
+
+	public java.lang.Boolean getIsDeployNexusBoolean() {
+		return this.isDeployNexus == 1;
 	}
 	
 	public void setModelNames(String value) {
@@ -237,12 +258,20 @@ public class JenkinsJob extends MyBaseEntity{
 		return this.isSendEmail;
 	}
 	
+	public java.lang.Boolean getIsSendEmailBoolean() {
+		return this.isSendEmail==1;
+	}
+	
 	public void setIsMavenDebug(java.lang.Integer value) {
 		this.isMavenDebug = value;
 	}
 	
 	public java.lang.Integer getIsMavenDebug() {
 		return this.isMavenDebug;
+	}
+	
+	public java.lang.Boolean getIsMavenDebugBoolean() {
+		return this.isMavenDebug == 1;
 	}
 	
 	public void setCreateUserId(java.lang.Long value) {
