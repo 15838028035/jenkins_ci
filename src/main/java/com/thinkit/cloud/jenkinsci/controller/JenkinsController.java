@@ -84,6 +84,7 @@ public class JenkinsController {
                } catch (Exception e) {
                    logger.error("创建job异常, job名称{}",jenkinsJob.getJobName(),e);
                    retMap.put("respCode", "0");
+                   retMap.put("respMsg", "创建job失败");
                    exceptionMsg.append("创建异常,job名称:" + jenkinsJob.getJobName() +"\r\n");
                }
          }
@@ -130,6 +131,7 @@ public class JenkinsController {
               } catch (Exception e) {
                   logger.error("创建job异常, job名称{}",jenkinsJob.getJobName(),e);
                   retMap.put("respCode", "0");
+                  retMap.put("respMsg", "创建job失败");
                   exceptionMsg.append("创建异常,job名称:" + jenkinsJob.getJobName() +"\r\n");
               }
         
@@ -158,6 +160,7 @@ public class JenkinsController {
       } catch (Exception e) {
           logger.error("构建job异常, job名称{}",jenkinsJob.getJobName(),e);
           retMap.put("respCode", "0");
+          retMap.put("respMsg", "启动job失败");
       }
          
         return retMap;
