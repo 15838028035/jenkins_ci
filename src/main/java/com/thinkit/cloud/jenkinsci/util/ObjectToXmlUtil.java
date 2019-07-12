@@ -30,6 +30,7 @@ public class ObjectToXmlUtil  {
         {
             Configuration configuration = new Configuration();
             configuration.setDirectoryForTemplateLoading(new File(path));
+            configuration.setDefaultEncoding("UTF-8");  
  
             Template template = configuration.getTemplate(fileName);
             template.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);
@@ -75,6 +76,7 @@ public class ObjectToXmlUtil  {
         {
             Configuration configuration = new Configuration();
             configuration.setDirectoryForTemplateLoading(new File(path));
+            configuration.setDefaultEncoding("UTF-8");
  
             Template template = configuration.getTemplate(fileName);
             template.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);

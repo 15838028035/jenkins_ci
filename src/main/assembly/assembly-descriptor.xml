@@ -40,6 +40,15 @@
                 <include>index.html</include>
             </includes>
         </fileSet>
+         <fileSet>
+            <directory>${project.basedir}/src/main/resources/templates</directory>
+            <outputDirectory>templates</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+        
 		<fileSet>
 			<directory>${project.basedir}/src/main/bin</directory>
 			<outputDirectory>bin</outputDirectory>

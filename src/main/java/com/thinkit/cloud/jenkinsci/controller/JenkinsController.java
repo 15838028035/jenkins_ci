@@ -60,27 +60,29 @@ public class JenkinsController {
     	 retMap.put("respCode", "1");
     	 retMap.put("respMsg", "创建job成功");
          
-         File filePath = FileHelper.getFile("classpath:templates");
+         File filePath = FileHelper.getFile("templates");
+         
+         logger.info("模板文件路径:{}", filePath.getAbsolutePath());
          StringBuilder  exceptionMsg = new StringBuilder();
          for(JenkinsJob jenkinsJob: jobs) {
         	 try {
         	  	 
-         		String job_name = jenkinsJob.getJobName();
+         		String jobName = jenkinsJob.getJobName();
        			String result = ObjectToXmlUtil.buil(filePath.getAbsolutePath(),jenkinsJob,"config.xml");
                  
        			logger.info("job模板内容:{}", result);
        			
-                   if (jenkinsServer.getJob(job_name) != null) {
-                  	 jenkinsServer.updateJob(job_name,result);
-                  	logger.info("更新任务{} 成功", job_name);
+                   if (jenkinsServer.getJob(jobName) != null) {
+                  	 jenkinsServer.updateJob(jobName,result);
+                  	logger.info("更新任务{} 成功", jobName);
                    }else {
-                 	  jenkinsServer.createJob(job_name,result, false);
+                 	  jenkinsServer.createJob(jobName,result, false);
                  	  
-                 	  logger.info("创建任务{} 成功", job_name);
+                 	  logger.info("创建任务{} 成功", jobName);
                    }
                    
                } catch (Exception e) {
-                   e.printStackTrace();
+                   logger.error("创建job异常, job名称{}",jenkinsJob.getJobName(),e);
                    retMap.put("respCode", "0");
                    exceptionMsg.append("创建异常,job名称:" + jenkinsJob.getJobName() +"\r\n");
                }
@@ -105,27 +107,28 @@ public class JenkinsController {
     	 retMap.put("respCode", "1");
     	 retMap.put("respMsg", "创建job成功");
          
-         File filePath = FileHelper.getFile("classpath:templates");
+         File filePath = FileHelper.getFile("templates");
+         logger.info("模板文件路径:{}", filePath.getAbsolutePath());
          StringBuilder  exceptionMsg = new StringBuilder();
         	 try {
         	  	 
-        		String job_name = jenkinsJob.getJobName();
+        		String jobName = jenkinsJob.getJobName();
       			String result = ObjectToXmlUtil.buil(filePath.getAbsolutePath(),jenkinsJob,"config.xml");
       			
       			logger.info("job模板内容:{}", result);
                 
                   
-                  if (jenkinsServer.getJob(job_name) != null) {
-                 	 jenkinsServer.updateJob(job_name,result);
-                 	logger.info("更新任务{} 成功", job_name);
+                  if (jenkinsServer.getJob(jobName) != null) {
+                 	 jenkinsServer.updateJob(jobName,result);
+                 	logger.info("更新任务{} 成功", jobName);
                   }else {
-                	  jenkinsServer.createJob(job_name,result, false);
+                	  jenkinsServer.createJob(jobName,result, false);
                 	  
-                	  logger.info("创建任务{} 成功", job_name);
+                	  logger.info("创建任务{} 成功", jobName);
                   }
                   
               } catch (Exception e) {
-                  e.printStackTrace();
+                  logger.error("创建job异常, job名称{}",jenkinsJob.getJobName(),e);
                   retMap.put("respCode", "0");
                   exceptionMsg.append("创建异常,job名称:" + jenkinsJob.getJobName() +"\r\n");
               }
@@ -153,6 +156,7 @@ public class JenkinsController {
          	 Job job = jenkinsServer.getJob(jenkinsJob.getJobName());
              job.build();
       } catch (Exception e) {
+          logger.error("构建job异常, job名称{}",jenkinsJob.getJobName(),e);
           retMap.put("respCode", "0");
       }
          
