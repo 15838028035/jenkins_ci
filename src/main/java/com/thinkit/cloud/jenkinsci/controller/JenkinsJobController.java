@@ -23,7 +23,7 @@ import com.offbytwo.jenkins.JenkinsServer;
 import com.thinkit.cloud.jenkinsci.bean.JenkinsJob;
 import com.thinkit.cloud.jenkinsci.service.JenkinsJobService;
 import com.thinkit.cloud.jenkinsci.service.JenkinsService;
-import com.zhongkexinli.micro.serv.common.bean.RestAPIResult2;
+import com.zhongkexinli.micro.serv.common.bean.RestApiResult2;
 import com.zhongkexinli.micro.serv.common.msg.LayUiTableResultResponse;
 import com.zhongkexinli.micro.serv.common.pagination.Query;
 
@@ -60,7 +60,7 @@ public class JenkinsJobController extends BaseController{
 	 
 		@ApiOperation(value = "新增")
 		@PostMapping(value = "/api/JenkinsJob")
-		public RestAPIResult2 create(@ModelAttribute JenkinsJob jenkinsJob,HttpServletRequest request)  {
+		public RestApiResult2 create(@ModelAttribute JenkinsJob jenkinsJob,HttpServletRequest request)  {
 			
 			try {
 					Long createBy = getLoginId(request);
@@ -71,15 +71,15 @@ public class JenkinsJobController extends BaseController{
 					
 				}catch(Exception e) {
 					logger.error("[jenkins任务信息]-->新增失败" ,e);
-					return new RestAPIResult2().respCode(0).respMsg("新增失败 {}" ,e.getMessage());
+					return new RestApiResult2().respCode(0).respMsg("新增失败 {}" ,e.getMessage());
 				}
 				
-				return new RestAPIResult2();
+				return new RestApiResult2();
 	}
 	 
 		@ApiOperation(value = "更新")
 		@PutMapping(value="/api/JenkinsJob/{id}")
-		public RestAPIResult2 update(@PathVariable("id") java.lang.Long id ,@ModelAttribute JenkinsJob jenkinsJob,HttpServletRequest request)  {
+		public RestApiResult2 update(@PathVariable("id") java.lang.Long id ,@ModelAttribute JenkinsJob jenkinsJob,HttpServletRequest request)  {
 			try {
 					
 					Long createBy = getLoginId(request);
@@ -90,10 +90,10 @@ public class JenkinsJobController extends BaseController{
 					
 				}catch(Exception e) {
 					logger.error("[jenkins任务信息]-->更新失败" ,e);
-					return new RestAPIResult2().respCode(0).respMsg("更新失败 {}" ,e.getMessage());
+					return new RestApiResult2().respCode(0).respMsg("更新失败 {}" ,e.getMessage());
 				}
 				
-				return new RestAPIResult2();
+				return new RestApiResult2();
 	}
 		
 	/** 显示 */
@@ -110,7 +110,7 @@ public class JenkinsJobController extends BaseController{
 	/** 物理删除 */
 	@ApiOperation(value = "物理删除")
 	@DeleteMapping(value="/api/JenkinsJob/{id}")
-	public RestAPIResult2 delete(@PathVariable("id") java.lang.Long id ) {
+	public RestApiResult2 delete(@PathVariable("id") java.lang.Long id ) {
 		JenkinsJob jenkinsJob =jenkinsJobService.selectByPrimaryKey(id);
 		if(jenkinsJob== null) {
 			jenkinsJob = new JenkinsJob();
@@ -124,7 +124,7 @@ public class JenkinsJobController extends BaseController{
             e.printStackTrace();
         }
 		  
-		return new RestAPIResult2();
+		return new RestApiResult2();
 	}
 
 	/** 显示 */
@@ -144,10 +144,10 @@ public class JenkinsJobController extends BaseController{
 	
 	@ApiOperation(value = "列表")
 	@GetMapping(value = "/api/JenkinsJob/queryList")
-	public RestAPIResult2 queryList(@RequestParam Map<String, Object> params) {
+	public RestApiResult2 queryList(@RequestParam Map<String, Object> params) {
 			Query query= new Query(params);
 			List<JenkinsJob> list = jenkinsJobService.selectByExample(query);
-			return new RestAPIResult2().respData(list);
+			return new RestApiResult2().respData(list);
 	}
 }
 
