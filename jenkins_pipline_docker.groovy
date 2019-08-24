@@ -84,9 +84,9 @@ node {
 				try{
 					sh "rm sonar-project.properties"
 				}catch(e){}
-					sh "echo 'sonar.projectKey=params.MODEL_NAMES' >> sonar-project.properties"
-					sh "echo 'sonar.projectName=params.MODEL_NAMES' >> sonar-project.properties"
-					sh "echo 'sonar.projectVersion=params.GIT_BRANCH' >> sonar-project.properties"
+					sh "echo 'sonar.projectKey="+params.MODEL_NAMES+"-"+params.GIT_BRANCH+"' >> sonar-project.properties"
+					sh "echo 'sonar.projectName="+params.MODEL_NAMES+"-"+params.GIT_BRANCH+"' >> sonar-project.properties"
+					sh "echo 'sonar.projectVersion="+params.GIT_BRANCH+"' >> sonar-project.properties"
 					sh "echo 'sonar.sourceEncoding=UTF-8' >> sonar-project.properties"
 										
 					if(params.IS_RUN_SONAR_HTML) {
@@ -169,7 +169,7 @@ node {
         deleteDir()
         // 查看当前目录
         // sh 'ls -lah'
-			cleanWs();
+		//	cleanWs();
     }
     }  finally {
 		if(params.IS_SEND_EMAIL) {
