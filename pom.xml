@@ -17,7 +17,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <microservice-common-util.version>1.0.4</microservice-common-util.version>
+        <microservice-common-util.version>1.0.5</microservice-common-util.version>
         <org.apache.maven.plugins.maven-assembly-plugin.version>3.1.0</org.apache.maven.plugins.maven-assembly-plugin.version>
     </properties>
 

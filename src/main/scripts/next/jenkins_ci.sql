@@ -33,5 +33,3 @@ CREATE TABLE `jenkins_job` (
   `update_time` datetime DEFAULT NULL  COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='jenkins任务信息';
-
-
