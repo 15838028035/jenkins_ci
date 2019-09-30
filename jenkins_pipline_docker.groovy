@@ -59,7 +59,6 @@ node {
 	   echo "是否发送邮件通知IS_SEND_EMAIL:" +params.IS_SEND_EMAIL
 	   echo "是否启用maven调试，默认值false，IS_MAVEN_DEBUG:" +params.IS_MAVEN_DEBUG
 	   
-	   
 	   echo "请求参数信息风格2显示如下===============>:"
        echo "仓库地址GIT_URL:[{}] ==>"+ params.GIT_URL
        echo "分支名称GIT_BRANCH:[{}] ==>" +params.GIT_BRANCH
@@ -72,6 +71,23 @@ node {
        echo "镜像模块名称MODEL_NAMES:[{}] ==>" +params.MODEL_NAMES
        echo "是否发送邮件通知IS_SEND_EMAIL:[{}]  ==>" +params.IS_SEND_EMAIL
        echo "是否启用maven调试，默认值false，IS_MAVEN_DEBUG:[{}] ==>" +params.IS_MAVEN_DEBUG
+       
+       echo "请求参数信息风格3显示如下===============>:"
+       echo "============================================================================================================"
+       echo "参数英文名称                                                                                        参数中文名称                                                                                                  参数值                                                                                                                            "
+       echo "============================================================================================================"
+       echo "仓库地址                                                                                                 GIT_URL                           " + params.GIT_URL                     + ""
+       echo "分支名称                                                                                                 GIT_BRANCH                        " + params.GIT_BRANCH                  + ""
+       echo "是否使用git tag                     IS_USE_GIT_TAG                    " + params.IS_USE_GIT_TAG              + ""
+       echo "jenkins凭据参数                                                                          GIT_CREDIT                        " + params.GIT_CREDIT                  + ""
+       echo "是否执行sonar扫描IS_RUN_SONAR        IS_RUN_SONAR                      " + params.IS_RUN_SONAR                + ""
+       echo "是否执行sonar html扫描                                                     IS_RUN_SONAR_HTML                 " + params.IS_RUN_SONAR_HTML           + ""
+       echo "是否执行docker镜像                                                                   IS_GEN_DOCKER_IMG                 " + params.IS_GEN_DOCKER_IMG           + ""
+       echo "是否发布到nexus中                                                                       IS_DEPLOY_NEXUS                   " + params.IS_DEPLOY_NEXUS             + ""
+       echo "镜像模块名称                                                                                          MODEL_NAMES                      " + params.MODEL_NAMES                  + ""
+       echo "是否发送邮件通知                                                                              IS_SEND_EMAIL                     " + params.IS_SEND_EMAIL                + ""
+       echo "是否启用maven调试，默认值false          IS_MAVEN_DEBUG                    " + params.IS_MAVEN_DEBUG               + ""
+          
 	   
     }
 	
