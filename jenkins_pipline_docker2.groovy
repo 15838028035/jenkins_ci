@@ -233,7 +233,7 @@ def buildAndPushImage(moduleHome) {
 
     def buildPath = workPath + "/target/docker";
     // 创建构建目录，并拷贝文件。
-    sh "mkdir -p ${buildPath}   && cp ${workPath}/src/main/docker/Dockerfile ${buildPath}/ && cp ${workPath}/target/*.zip ${buildPath} "
+    sh "mkdir -p ${buildPath} && mkdir -p ${buildPath}/config &&  mkdir -p ${buildPath}/lib  && cp ${workPath}/src/main/docker/Dockerfile ${buildPath}/ && cp ${workPath}/target/*.jar ${buildPath}   && cp ${workPath}/target/classes/application*.* ${buildPath}/config"
 
     // 声明凭证，该凭证来自jenkins
     def docker_cer = 'docker-hub-10-1-245-53'
